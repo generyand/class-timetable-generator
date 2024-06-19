@@ -9,7 +9,7 @@ export default function Row({ index }) {
       ))}
 
       <p className="absolute text-[.5rem] md:text-xs sm:text-[.625rem] -left-6 top-[-.375rem] sm:-left-8 sm:-top-2 md:-left-9 text-end w-[5ch]">
-        {index + 7 > 12 ? ((index + 7) % 12) + "PM" : index + 7 + "AM"}
+        {index + 7 > 11 ? ((index + 7) % 12) + "PM" : index + 7 + "AM"}
       </p>
     </div>
   );
