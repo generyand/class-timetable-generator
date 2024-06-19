@@ -4,7 +4,7 @@ import Logo from "./Logo";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 flex items-center w-full z-[10]">
+    <header id="header" className="sticky top-0 flex items-center w-full z-[10]">
       {/* NavHeader */}
       <div className="flex items-center gap-3 px-3 py-2 sm:gap-4">
         {/* Menu Button */}

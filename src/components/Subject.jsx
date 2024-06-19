@@ -21,7 +21,7 @@ export default function Subject({ data }) {
     <div
       className={`bg-red-700 outline outline-red-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 text-red-100 p-[0.1rem] md:p-2 flex justify-center items-center  ${subjectStylingClass}`}
     >
-      <p className="text-xs md:text-base">{subjectStylingClass}</p>
+      {/* <p className="text-xs md:text-base">{subjectStylingClass}</p> */}
     </div>
 
     /* DEBUGGER 1 */
@@ -32,13 +32,13 @@ export default function Subject({ data }) {
     /* DEBUGGER 2 */
     // <>
     //   <div
-    //     className={`row-start-1 row-end-3 col-start-1 col-end-4 bg-red-700 outline outline-red-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 flex justify-center items-center m-[0.15rem]`}
+    //     className={`row-start-1 row-end-2 col-start-1 col-end-4 bg-red-700 outline outline-red-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 flex justify-center items-center m-[0.15rem]`}
     //   >
     //     <p className="text-xs md:text-base">{dataClass}</p>
     //   </div>
 
     //   <div
-    //     className={`row-start-1 row-end-3 col-start-4 col-end-7 bg-red-700 outline outline-red-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 flex justify-center items-center m-[0.15rem]`}
+    //     className={`row-start-1 row-end-2 col-start-4 col-end-7 bg-red-700 outline outline-red-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 flex justify-center items-center m-[0.15rem]`}
     //   >
     //     <p className="text-xs md:text-base">{dataClass}</p>
     //   </div>

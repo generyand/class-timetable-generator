@@ -5,11 +5,11 @@ export default {
     extend: {
       gridTemplateRows: {
         // Simple 16 row grid
-        15: "repeat(15, minmax(clamp(4rem, 15vw, 5rem), 1fr))", // clamp(4rem, 15vw, 5rem)
+        15: "repeat(15, minmax(clamp(3.5rem, 3.5vw, 5rem), 1fr))", // clamp(3.5rem, 3.5vw, 5rem)
         16: "repeat(16, minmax(0, 1fr))",
 
         // Complex site-specific row configuration
-        layout: "200px minmax(900px, 1fr) 100px",
+        // layout: "200px minmax(900px, 1fr) 100px",
       },
       gridRowEnd: {
         14: "14",
