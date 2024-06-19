@@ -7,8 +7,8 @@ import { AnimatePresence } from "framer-motion";
 export default function TimeTable() {
   return (
     <div className="timetable | relative grid grid-cols-6 border border-collapse rounded-md mx-7 grid-rows-30 sm:mx-8 md:mx-10 lg:mx-12 border-neutral-800">
-      <GridLines />
       {/* A Grid for guidelines */}
+      <GridLines />
 
       <AnimatePresence>
         {mockData.map((data) => (
