@@ -42,7 +42,7 @@ const initialMockData = [
     dayEnd: "wed",
   },
   {
-    id: 5,
+    id: 6,
     title: "GPE 4",
     timeStart: "13:30",
     timeEnd: "14:30",
@@ -50,7 +50,7 @@ const initialMockData = [
     dayEnd: "sat",
   },
   {
-    id: 5,
+    id: 7,
     title: "IT6",
     timeStart: "14:30",
     timeEnd: "15:30",
@@ -58,21 +58,13 @@ const initialMockData = [
     dayEnd: "wed",
   },
   {
-    id: 6,
+    id: 8,
     title: "IT6",
     timeStart: "11:00",
     timeEnd: "12:00",
     dayStart: "wed",
     dayEnd: "sat",
   },
-  // {
-  //   id: 2,
-  //   title: "IT6",
-  //   timeStart: "09:30",
-  //   timeEnd: "11:30",
-  //   dayStart: "mon",
-  //   dayEnd: "fri",
-  // },
 ];
 
 const mockData = initialMockData.map((data) => {
