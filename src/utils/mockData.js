@@ -35,7 +35,7 @@ const mockData = [
   {
     id: 5,
     title: "Chemistry",
-    timeStart: "10:00",
+    timeStart: "11:00",
     timeEnd: "12:00",
     dayStart: "thu",
     dayEnd: "sat",
