@@ -5,7 +5,7 @@ const initialMockData = [
     id: 1,
     title: "IT 26",
     timeStart: "07:00",
-    timeEnd: "09:00",
+    timeEnd: "08:00",
     dayStart: "mon",
     dayEnd: "wed",
   },
@@ -15,7 +15,7 @@ const initialMockData = [
     timeStart: "07:00",
     timeEnd: "08:00",
     dayStart: "thu",
-    dayEnd: "fri",
+    dayEnd: "sat",
   },
   {
     id: 3,

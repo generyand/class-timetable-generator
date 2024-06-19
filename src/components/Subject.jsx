@@ -13,7 +13,7 @@ export default function Subject({ data }) {
         gridRowStart: data.rowStart,
         gridRowEnd: data.rowEnd,
       }}
-      className={`bg-red-700 outline outline-red-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 transition text-red-100 p-[0.1rem] md:p-2 overflow-hidden m-[.1rem] $`}
+      className="bg-sky-700 outline outline-sky-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 transition text-red-100 p-[0.1rem] md:p-2 overflow-hidden m-[.1rem] cursor-pointer"
     >
       <p className="text-xs font-bold sm:text-sm md:text-base">{data.title}</p>
       <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90">
