@@ -5,7 +5,7 @@ import { mockData } from "../utils/mockData";
 
 export default function TimeTable() {
   return (
-    <div className="relative grid grid-cols-6 m-6 border border-collapse grid-rows-15 sm:m-8 md:m-10 lg:m-12 border-neutral-800">
+    <div className="relative grid grid-cols-6 border border-collapse rounded-md m-7 grid-rows-15 sm:m-8 md:m-10 lg:m-12 border-neutral-800">
       {/* A Grid for guidelines */}
       <GridLines />
 

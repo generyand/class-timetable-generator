@@ -10,7 +10,7 @@ export default function Row({ index }) {
       ))}
 
       {/* Label */}
-      <p className="absolute text-[.45rem] md:text-[.7rem] sm:text-[.625rem] -left-6 top-[-.35rem] sm:-left-8 sm:-top-2 md:-left-9 text-end w-[5ch]">
+      <p className="absolute text-[.45rem] md:text-[.7rem] sm:text-[.625rem] -left-[1.6rem] bottom-[-.35rem] sm:-left-8 sm:-bottom-2 md:-left-9 text-end w-[5ch]">
         {getTimeIn12HourFormat(index)}
       </p>
     </div>

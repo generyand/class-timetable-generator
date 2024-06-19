@@ -6,7 +6,7 @@
 // because we started at 7AM. Then we can use the modulo operator
 // to get the time in 12 hour format.
 const getTimeIn12HourFormat = (index) => {
-  const time = index + 7;
+  const time = index + 8;
 
   if (time > 11) {
     const pmTime = time % 12;
