@@ -7,6 +7,7 @@ export default {
         // Simple 16 row grid
         15: "repeat(15, minmax(clamp(3.5rem, 3.5vw, 5rem), 1fr))", // clamp(3.5rem, 3.5vw, 5rem)
         16: "repeat(16, minmax(0, 1fr))",
+        30: "repeat(30, minmax(clamp(1.75rem, 1.75vw, 2.5rem), 1fr))",
 
         // Complex site-specific row configuration
         // layout: "200px minmax(900px, 1fr) 100px",
