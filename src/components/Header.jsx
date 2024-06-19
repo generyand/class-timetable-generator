@@ -20,7 +20,7 @@ export default function Header() {
       {/* Table Header */}
       <div
         style={{ borderCollapse: "collapse" }}
-        className="table-header | grid grid-cols-6 mx-7 sm:mx-8 md:mx-10 lg:mx-12 text-xs sm:text-sm md:text-base lg:text-lg mt-6 border-collapse text-center"
+        className="table-header | relative grid grid-cols-6 mx-7 sm:mx-8 md:mx-10 lg:mx-12 text-xs sm:text-sm md:text-base lg:text-lg mt-6 border-collapse text-center"
       >
         <div className="py-2 border-x border-neutral-700">MON</div>
         <div className="py-2 border-x border-neutral-700">TUE</div>
