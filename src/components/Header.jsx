@@ -4,7 +4,7 @@ import MobileNavHeader from "./MobileNavHeader";
 
 export default function Header() {
   return (
-    <header id="header" className="sticky top-0 items-center w-full z-[10]">
+    <header className="header | sticky top-0 items-center w-full z-[10]">
       {/* NavHeader */}
       <MobileNavHeader />
 

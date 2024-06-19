@@ -4,7 +4,7 @@ import TimeTable from "./TimeTable";
 
 export default function TimeTableGenerator() {
   return (
-    <div className="">
+    <div className="timetable-generator">
       <Header />
       <TimeTable />
     </div>
