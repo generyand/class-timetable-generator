@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 
 export default function TimeTable() {
   return (
-    <div className="timetable | relative grid grid-cols-6 border border-collapse rounded-md m-7 grid-rows-30 sm:m-8 md:m-10 lg:m-12 border-neutral-800">
+    <div className="timetable | relative grid grid-cols-6 border border-collapse rounded-md mx-7 grid-rows-30 sm:mx-8 md:mx-10 lg:mx-12 border-neutral-800">
       <GridLines />
       {/* A Grid for guidelines */}
 
