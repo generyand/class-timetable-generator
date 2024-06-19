@@ -1,3 +1,7 @@
+/* DURATION CONVERSION */
+
+// Each time conversion is converted into a number that represents 
+// the start row and end row of that time in the grid system.
 const timeConversion = {
   "07:00": 1,
   "08:00": 2,
@@ -16,6 +20,8 @@ const timeConversion = {
   "21:00": 15,
 };
 
+// Each day conversion is converted into a number that represents
+// the start column and end column of that day in the grid system.
 const dayConversion = {
   "mon": 1,
   "tue": 2,
