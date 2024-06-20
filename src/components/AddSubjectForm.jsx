@@ -71,27 +71,27 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
         <div className="time-range-pick">
           <h2 className="mb-2">Time</h2>
           <div className="flex">
-            <div className="time-start | flex bg-neutral-900 items-center text-center">
+            <div className="time-start | flex bg-gray-800 items-center text-center rounded-md">
               {/* <label htmlFor="time-start-hour">From</label> */}
               <select
                 name="time-start-hour"
                 id="time-start-hour"
-                className="px-4 py-2 text-white bg-transparent border-none outline-none appearance-none focus:outline-none bg-neutral-900"
+                className="px-4 py-2 text-white bg-transparent bg-gray-800 border-none outline-none appearance-none focus:outline-none"
               >
                 <option className="p-4 outline-red-700" selected value="07">
-                  7
+                  07
                 </option>
                 <option
                   className="p-4 border-none outline-none outline-red-700"
                   value="08"
                 >
-                  8
+                  08
                 </option>
                 <option
                   className="p-4 border-none outline-none outline-red-700"
                   value="09"
                 >
-                  9
+                  09
                 </option>
                 <option
                   className="p-4 border-none outline-none outline-red-700"
@@ -116,7 +116,7 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
               <select
                 name="time-start-hour"
                 id="time-start-hour"
-                className="px-4 py-2 text-white bg-transparent appearance-none focus:outline-none bg-neutral-900"
+                className="px-4 py-2 text-white bg-transparent bg-gray-800 appearance-none focus:outline-none"
               >
                 <option selected value="AM">
                   00
@@ -126,7 +126,7 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
               <select
                 name="time-start-hour"
                 id="time-start-hour"
-                className="py-2 pl-2 pr-4 text-white bg-transparent appearance-none focus:outline-none bg-neutral-900"
+                className="py-2 pl-2 pr-4 text-white bg-transparent bg-gray-800 appearance-none focus:outline-none"
               >
                 <option selected value="AM">
                   AM
