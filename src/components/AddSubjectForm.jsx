@@ -71,52 +71,27 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
         <div className="time-range-pick">
           <h2 className="mb-2">Time</h2>
           <div className="flex">
-            <div className="time-start | flex bg-gray-800 items-center text-center rounded-md">
+            <div className="time-start | flex bg-sky-950 items-center text-center rounded-md overflow-hidden">
               {/* <label htmlFor="time-start-hour">From</label> */}
               <select
                 name="time-start-hour"
                 id="time-start-hour"
-                className="px-4 py-2 text-white bg-transparent bg-gray-800 border-none outline-none appearance-none focus:outline-none"
+                className="px-4 py-2 text-white bg-transparent border-none outline-none appearance-none bg-sky-950 focus:outline-none"
               >
                 <option className="p-4 outline-red-700" selected value="07">
                   07
                 </option>
-                <option
-                  className="p-4 border-none outline-none outline-red-700"
-                  value="08"
-                >
-                  08
-                </option>
-                <option
-                  className="p-4 border-none outline-none outline-red-700"
-                  value="09"
-                >
-                  09
-                </option>
-                <option
-                  className="p-4 border-none outline-none outline-red-700"
-                  value="10"
-                >
-                  10
-                </option>
-                <option
-                  className="p-4 border-none outline-none outline-red-700"
-                  value="11"
-                >
-                  11
-                </option>
-                <option
-                  className="p-4 border-none outline-none outline-red-700"
-                  value="12"
-                >
-                  12
-                </option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
               </select>
               <p>:</p>
               <select
                 name="time-start-hour"
                 id="time-start-hour"
-                className="px-4 py-2 text-white bg-transparent bg-gray-800 appearance-none focus:outline-none"
+                className="px-4 py-2 text-white bg-transparent appearance-none bg-sky-950 focus:outline-none"
               >
                 <option selected value="AM">
                   00
@@ -126,7 +101,7 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
               <select
                 name="time-start-hour"
                 id="time-start-hour"
-                className="py-2 pl-2 pr-4 text-white bg-transparent bg-gray-800 appearance-none focus:outline-none"
+                className="py-2 pl-2 pr-4 text-white bg-transparent appearance-none bg-sky-950 focus:outline-none"
               >
                 <option selected value="AM">
                   AM
