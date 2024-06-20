@@ -11,7 +11,7 @@ const initialMockData = [
   },
   {
     id: 2,
-    title: "GE 5",
+    title: "GE 5: Environmental Science",
     timeStart: "07:00",
     timeEnd: "08:00",
     dayStart: "thu",

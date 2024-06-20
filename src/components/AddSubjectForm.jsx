@@ -38,7 +38,7 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
               onChange={(e) => setSubjectTitle(e.target.value)}
               value={subjectTitle}
               type="text"
-              placeholder="Subject Title (e.g., GE5)"
+              placeholder="Subject Title (e.g., GPE 1)"
               autoFocus
               className="w-full text-xl leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
             />
