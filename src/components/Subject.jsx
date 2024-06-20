@@ -19,15 +19,18 @@ export default function Subject({ data }) {
         <p className="text-xs font-bold truncate sm:text-sm md:text-base">
           {data.title} | {data.code}
         </p>
-        <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90">
-          {data.dayStart.toUpperCase().slice(0, 3)} - {data.dayEnd.toUpperCase().slice(0, 3)}
+        <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
+          {data.dayStart.toUpperCase().slice(0, 3)} -{" "}
+          {data.dayEnd.toUpperCase().slice(0, 3)}
         </p>
-        <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90">
+        <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
           {data.timeStart} - {data.timeEnd}
         </p>
       </div>
 
-      <p className="place-self-end text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90">Room: {data.room}</p>
+      <p className="place-self-end text-[.625rem] self-start sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
+        {data.room}
+      </p>
     </div>
   );
 }
