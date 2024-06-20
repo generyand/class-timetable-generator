@@ -5,7 +5,7 @@ import Menu from "./Menu";
 import TimeTable from "./TimeTable";
 import AddSubjectButton from "./AddSubjectButton";
 import AddSubjectForm from "./AddSubjectForm";
-
+import { AnimatePresence } from "framer-motion";
 
 export default function TimeTableGenerator() {
   const [addSubjFormVisible, setAddSubjFormVisible] = useState(false);
@@ -23,11 +23,15 @@ export default function TimeTableGenerator() {
       {/* <Menu /> */}
       <Header />
       <TimeTable />
-      {/* AddSubjectButton */}
+
+      {/* Add Course Button */}
       <AddSubjectButton setAddSubjFormVisible={setAddSubjFormVisible} />
-      {addSubjFormVisible && (
-        <AddSubjectForm setAddSubjFormVisible={setAddSubjFormVisible} />
-      )}
+
+      <AnimatePresence>
+        {addSubjFormVisible && (
+          <AddSubjectForm setAddSubjFormVisible={setAddSubjFormVisible} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

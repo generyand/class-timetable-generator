@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import HighlightBackground from "./HighlightBackground";
 
 function AddSubjectForm({ setAddSubjFormVisible }) {
   const [subjectTitle, setSubjectTitle] = useState("");
   const [subjectCode, setSubjectcode] = useState("");
   const [subjectRoom, setSubjectRoom] = useState("");
-  const [subjectBGColor, setSubjectBGColor] = useState("");
+  // const [subjectBGColor, setSubjectBGColor] = useState("");
 
   const handleAddSubject = (e) => {
     e.preventDefault();
@@ -16,17 +17,22 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: "5%" }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.125 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
       className="add-subject-form | fixed inset-0 z-[10]"
     >
-      <div className="overlay"></div>
+      <div
+        className="overlay"
+        onClick={() => setAddSubjFormVisible(false)}
+      ></div>
       <form
         onSubmit={handleAddSubject}
-        className="w-full h-[100vh] max-w-xl p-4 mx-auto bg-gray-900 z-[20] relative sm:h-auto"
+        className="w-full h-[100vh] max-w-[640px] p-4 mx-auto bg-gray-900 z-20 relative sm:h-auto sm:rounded-lg overflow-hidden"
       >
-        <div className="title-code-room | border-b py-4 border-b-neutral-700">
+        <HighlightBackground />
+        <div className="title-code-room | border-b py-4 border-b-neutral-700 mb-4">
           <div className="subject-title-and-color | flex mt-6 items-center ">
             <input
               onChange={(e) => setSubjectTitle(e.target.value)}
@@ -60,17 +66,17 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
         </div>
 
         {/* Cancel and Save Buttons */}
-        <div className="cancel-and-save | absolute bottom-0 right-0 left-0 bg-gray-800">
+        <div className="cancel-and-save | fixed sm:sticky bottom-0 right-0 left-0 flex">
           <button
             onClick={() => setAddSubjFormVisible(false)}
             type="button"
-            className="w-1/2 py-4 transition active:bg-cyan-600"
+            className="flex-1 py-4 transition bg-gray-800 active:bg-cyan-600 sm:rounded-lg sm:mx-2"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="w-1/2 py-4 transition active:bg-cyan-600"
+            className="flex-1 py-4 transition bg-gray-800 active:bg-cyan-600 sm:rounded-lg sm:mx-2"
           >
             Save
           </button>
