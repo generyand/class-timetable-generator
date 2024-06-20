@@ -20,7 +20,7 @@ export default function Subject({ data }) {
           {data.title} | {data.code}
         </p>
         <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90">
-          {data.dayStart.toUpperCase()} - {data.dayEnd.toUpperCase().slice(0, 3)}
+          {data.dayStart.toUpperCase().slice(0, 3)} - {data.dayEnd.toUpperCase().slice(0, 3)}
         </p>
         <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90">
           {data.timeStart} - {data.timeEnd}
