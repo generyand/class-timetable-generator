@@ -5,14 +5,14 @@ import { mockData } from "../utils/mockData";
 import { AnimatePresence } from "framer-motion";
 import { memo } from "react";
 
-function TimeTable() {
+function TimeTable({subjects}) {
   // alert("TimeTable Rerendered!");
   return (
     <div className="timetable | relative grid grid-cols-6 border border-collapse rounded-md mx-7 grid-rows-30 sm:mx-8 md:mx-10 lg:mx-12 border-neutral-800 mb-8 ">
       {/* A Grid for guidelines */}
       <GridLines />
       <AnimatePresence>
-        {mockData.map((data) => (
+        {subjects.map((data) => (
           <Subject data={data} key={data.id} />
         ))}
       </AnimatePresence>

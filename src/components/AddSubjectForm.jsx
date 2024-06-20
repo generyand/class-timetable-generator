@@ -2,17 +2,34 @@ import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import HighlightBackground from "./HighlightBackground";
+import TimeRangePick from "./TimeRangePick";
 
-function AddSubjectForm({ setAddSubjFormVisible }) {
+function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
   const [subjectTitle, setSubjectTitle] = useState("");
   const [subjectCode, setSubjectcode] = useState("");
   const [subjectRoom, setSubjectRoom] = useState("");
-  // const [subjectBGColor, setSubjectBGColor] = useState("");
+  const [timeStart, setTimeStart] = useState("");
+  const [timeEnd, setTimeEnd] = useState("");
+  const [dayStart, setDayStart] = useState("");
+  const [dayEnd, setDayEnd] = useState("");
 
   const handleAddSubject = (e) => {
     e.preventDefault();
+
+    const newSubject = {
+      id: subjectCode,
+      code: subjectCode,
+      room: subjectRoom,
+      title: subjectTitle,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
+      dayStart: dayStart,
+      dayEnd: dayEnd,
+    };
+
+    handleAddCourse(newSubject);
+
     setAddSubjFormVisible(false);
-    console.log("added a subject");
   };
 
   return (
@@ -68,90 +85,66 @@ function AddSubjectForm({ setAddSubjFormVisible }) {
           />
         </div>
 
-        <div className="flex flex-col items-center time-range-pick ">
-          <h2 className="mb-2">Time</h2>
-          <div className="flex justify-center w-full inputs">
-            <div className="flex justify-around w-full gap-4 ">
-              <div className="time-start | text-center">
-                <p className="mb-2 text-sm font-light">From</p>
-                <div className="flex items-center overflow-hidden text-center rounded-md bg-sky-950">
-                  <select
-                    name="time-start-hour"
-                    id="time-start-hour"
-                    className="px-4 py-2 text-white bg-transparent border-none outline-none appearance-none bg-sky-950 focus:outline-none"
-                  >
-                    <option selected value="07">
-                      07
-                    </option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                  </select>
-                  <p>:</p>
-                  <select
-                    name="time-start-hour"
-                    id="time-start-hour"
-                    className="px-4 py-2 text-white bg-transparent appearance-none bg-sky-950 focus:outline-none"
-                  >
-                    <option selected value="AM">
-                      00
-                    </option>
-                    <option value="PM">30</option>
-                  </select>
-                  <select
-                    name="time-start-hour"
-                    id="time-start-hour"
-                    className="py-2 pl-2 pr-4 text-white bg-transparent appearance-none bg-sky-950 focus:outline-none"
-                  >
-                    <option selected value="AM">
-                      AM
-                    </option>
-                    <option value="PM">PM</option>
-                  </select>
-                </div>
-              </div>
-              <div className="time-end | text-center ">
-                <p className="mb-2 text-sm font-light">To</p>
-                <div className="flex items-center overflow-hidden text-center rounded-md bg-sky-950">
-                  <select
-                    name="time-end-hour"
-                    id="time-end-hour"
-                    className="px-4 py-2 text-white bg-transparent border-none outline-none appearance-none bg-sky-950 focus:outline-none"
-                  >
-                    <option value="07">07</option>
-                    <option selected value="08">
-                      08
-                    </option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                  </select>
-                  <p>:</p>
-                  <select
-                    name="time-end-hour"
-                    id="time-end-hour"
-                    className="px-4 py-2 text-white bg-transparent appearance-none bg-sky-950 focus:outline-none"
-                  >
-                    <option selected value="AM">
-                      00
-                    </option>
-                    <option value="PM">30</option>
-                  </select>
-                  <select
-                    name="time-end-hour"
-                    id="time-end-hour"
-                    className="py-2 pl-2 pr-4 text-white bg-transparent appearance-none bg-sky-950 focus:outline-none"
-                  >
-                    <option selected value="AM">
-                      AM
-                    </option>
-                    <option value="PM">PM</option>
-                  </select>
-                </div>
-              </div>
+        {/* <TimeRangePick /> */}
+
+        <div className="time | mb-8 ">
+          <div className="flex gap-4">
+            <div className="flex flex-col time-start ">
+              <label className="mb-2" htmlFor="time-start">
+                From
+              </label>
+              <input
+                onChange={(e) => setTimeStart(e.target.value)}
+                value={timeStart}
+                id="time-start"
+                type="text"
+                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
+                placeholder="7:00 AM"
+              />
+            </div>
+            <div className="flex flex-col time-end ">
+              <label className="mb-2" htmlFor="time-end">
+                To
+              </label>
+              <input
+                onChange={(e) => setTimeEnd(e.target.value)}
+                value={timeEnd}
+                id="time-end"
+                type="text"
+                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
+                placeholder="8:00 AM"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="day">
+          <div className="flex gap-4">
+            <div className="flex flex-col day-start ">
+              <label className="mb-2" htmlFor="day-start">
+                From
+              </label>
+              <input
+                onChange={(e) => setDayStart(e.target.value)}
+                value={dayStart}
+                id="day-start"
+                type="text"
+                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
+                placeholder="Monday"
+              />
+            </div>
+            <div className="flex flex-col day-end ">
+              <label className="mb-2" htmlFor="day-end">
+                To
+              </label>
+              <input
+                onChange={(e) => setDayEnd(e.target.value)}
+                value={dayEnd}
+                id="day-end"
+                type="text"
+                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
+                placeholder="Friday"
+              />
             </div>
           </div>
         </div>
