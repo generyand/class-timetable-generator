@@ -14,7 +14,7 @@ export default function Subject({ data }) {
         gridRowStart: data.rowStart,
         gridRowEnd: data.rowEnd,
       }}
-      className="bg-cyan-700 outline outline-cyan-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden m-[.1rem] cursor-pointer flex justify-between"
+      className="bg-cyan-700 outline outline-cyan-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between"
     >
       {/* <div >
         
