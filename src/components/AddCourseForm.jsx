@@ -94,69 +94,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
 
         <TimeRangePick setTimeStart={setTimeStart} setTimeEnd={setTimeEnd} />
 
-        <DayRangePick />
-
-        {/* <div className="time | mb-8 ">
-          <div className="flex gap-4">
-            <div className="flex flex-col time-start ">
-              <label className="mb-2" htmlFor="time-start">
-                From
-              </label>
-              <input
-                onChange={(e) => setTimeStart(e.target.value)}
-                value={timeStart}
-                id="time-start"
-                type="text"
-                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
-                placeholder="7:00 AM"
-              />
-            </div>
-            <div className="flex flex-col time-end ">
-              <label className="mb-2" htmlFor="time-end">
-                To
-              </label>
-              <input
-                onChange={(e) => setTimeEnd(e.target.value)}
-                value={timeEnd}
-                id="time-end"
-                type="text"
-                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
-                placeholder="8:00 AM"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="day">
-          <div className="flex gap-4">
-            <div className="flex flex-col day-start ">
-              <label className="mb-2" htmlFor="day-start">
-                From
-              </label>
-              <input
-                onChange={(e) => setDayStart(e.target.value)}
-                value={dayStart}
-                id="day-start"
-                type="text"
-                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
-                placeholder="Monday"
-              />
-            </div>
-            <div className="flex flex-col day-end ">
-              <label className="mb-2" htmlFor="day-end">
-                To
-              </label>
-              <input
-                onChange={(e) => setDayEnd(e.target.value)}
-                value={dayEnd}
-                id="day-end"
-                type="text"
-                className="w-full px-4 py-2 border-none rounded-md outline-none appearance-none bg-sky-950"
-                placeholder="Friday"
-              />
-            </div>
-          </div>
-        </div> */}
+        <DayRangePick setDayStart={setDayStart} setDayEnd={setDayEnd} />
 
         {/* Cancel and Save Buttons */}
         <div className="cancel-and-save | fixed sm:sticky bottom-0 right-0 left-0 flex">

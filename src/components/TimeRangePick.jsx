@@ -10,7 +10,7 @@ const darkTheme = createTheme({
   },
 });
 
-function TimeRangePick({setTimeStart, setTimeEnd}) {
+function TimeRangePick({ setTimeStart, setTimeEnd }) {
   const [time, setTime] = useState(null);
 
   useEffect(() => {
@@ -29,15 +29,14 @@ function TimeRangePick({setTimeStart, setTimeEnd}) {
               sx={{ width: "flex-1" }}
               onChange={(time) => setTime(time)}
               minutesStep={10}
-              label="From"
-              className="TimePicker | rounded-md"
+              label="From *"
             />
             <TimePicker
               sx={{ width: "flex-1" }}
               onChange={(time) => setTime(time)}
               minutesStep={10}
-              label="To"
-              className="TimePicker | rounded-md"
+              label="To *"
+              required
             />
           </div>
         </div>
