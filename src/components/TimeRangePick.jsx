@@ -32,14 +32,14 @@ function TimeRangePick({ setTimeStart, setTimeEnd }) {
           <h2 className="mb-4 text-center">Time</h2>
           <div className="flex justify-center gap-4">
             <MobileTimePicker
-              sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}
+              sx={{ flex: 1, flexBasis: 210, flexGrow: 0, zIndex: "0" }}
               onChange={(e) => handleTimeStart(e)}
               minutesStep={10}
               label="From *"
               required
             />
             <MobileTimePicker
-              sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}
+              sx={{ flex: 1, flexBasis: 210, flexGrow: 0, zIndex: "0" }}
               onChange={(e) => handleTimeEnd(e)}
               minutesStep={10}
               label="To *"

@@ -31,7 +31,7 @@ export default function DayRangePick({ setDayStart, setDayEnd }) {
       <div className="mb-8">
         <h2 className="mb-4 text-center">Day</h2>
         <div className="day-pick-wrapper | flex gap-4 justify-center">
-          <Box sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}>
+          <Box sx={{ flex: 1, flexBasis: 210, flexGrow: 0, zIndex: "0" }}>
             <FormControl required fullWidth>
               <InputLabel id="demo-simple-select-label">From</InputLabel>
               <Select
@@ -50,7 +50,7 @@ export default function DayRangePick({ setDayStart, setDayEnd }) {
               </Select>
             </FormControl>
           </Box>
-          <Box sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}>
+          <Box sx={{ flex: 1, flexBasis: 210, flexGrow: 0, zIndex: "0" }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">To</InputLabel>
               <Select

@@ -16,7 +16,6 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
   const [dayStart, setDayStart] = useState("");
   const [dayEnd, setDayEnd] = useState("");
   const [randomCourseTitle, setRandomCourse] = useState("");
-  const [buttonsVisible, setButtonsVisible] = useState(false);
 
   const handleAddSubject = (e) => {
     e.preventDefault();
@@ -40,11 +39,6 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
     setRandomCourse(getRandomCourse());
   }, [setAddSubjFormVisible]);
 
-  const handleOnBlur = () => {
-    if (buttonsVisible) setButtonsVisible(false);
-    else setButtonsVisible(true);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -59,14 +53,12 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
       ></div>
       <form
         onSubmit={handleAddSubject}
-        className="w-full h-[100vh] relative max-w-[640px] p-4 mx-auto bg-gray-900 z-20 sm:h-auto sm:rounded-lg overflow-hidden"
+        className="w-full h-full relative max-w-[640px] p-4 mx-auto bg-gray-900 z-20 sm:h-auto sm:rounded-lg overflow-hidden"
       >
         <HighlightBackground />
         <div className="title-code-room | border-b py-4 border-b-gray-800 mb-4">
           <div className="subject-title-and-color | flex mt-6 sm:m-0 items-center">
             <input
-              onFocus={() => setButtonsVisible(false)}
-              onBlur={handleOnBlur}
               onChange={(e) => setCourseTitle(e.target.value)}
               value={courseTitle}
               type="text"
@@ -85,8 +77,6 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
           </div>
 
           <input
-            onFocus={() => setButtonsVisible(false)}
-            onBlur={handleOnBlur}
             onChange={(e) => setClassCode(e.target.value)}
             value={classCode}
             type="text"
@@ -95,8 +85,6 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
           />
 
           <input
-            onFocus={() => setButtonsVisible(false)}
-            onBlur={handleOnBlur}
             onChange={(e) => setClassRoom(e.target.value)}
             value={classRoom}
             type="text"
@@ -110,9 +98,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
         <DayRangePick setDayStart={setDayStart} setDayEnd={setDayEnd} />
 
         {/* Cancel and Save Buttons */}
-        {buttonsVisible && (
-          <FormCancelSaveBtns setAddSubjFormVisible={setAddSubjFormVisible} />
-        )}
+        <FormCancelSaveBtns setAddSubjFormVisible={setAddSubjFormVisible} />
       </form>
     </motion.div>
   );
