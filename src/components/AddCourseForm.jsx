@@ -71,7 +71,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
               className="color-choices"
               onClick={() => alert("Color change button clicked")}
             >
-              <div className="w-6 h-6 mx-4 rounded-full bg-cyan-500"></div>
+              <div className="w-6 h-6 mx-4 bg-green-500 rounded-full"></div>
             </div>
           </div>
 
