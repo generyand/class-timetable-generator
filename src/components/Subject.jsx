@@ -32,7 +32,8 @@ export default function Subject({ data }) {
 
       <span className="place-self-end text-[.625rem] self-start sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light flex items-center justify-end text-end">
         {data.room && (
-          <BuildingOfficeIcon className="inline w-[.625rem] h-[.625rem] mr-[.1rem] mt-[-.125rem]" />
+          <BuildingOfficeIcon className="inline w-[.625rem] sm:w-[.75rem] md:w-[.875rem] aspect-square mr-[.1rem] sm:mr-[.25rem] mt-[-.125rem] sm:mt-0" />
+          // clamp(.625rem, 2vw, 1rem)
         )}{" "}
         <p>{data.room}</p>
       </span>
