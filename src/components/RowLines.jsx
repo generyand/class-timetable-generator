@@ -4,7 +4,7 @@ import { getTimeIn12HourFormat } from "../utils/getTimeIn12HourFormat";
 
 export default function RowLines({ index }) {
   return (
-    <div className="row | row-span-1 col-span-full grid grid-cols-6 relative">
+    <div className="row | row-span-6 col-span-full grid grid-cols-6 relative">
       <ColumnLines />
 
       {/* Horizontal Dashed Lines */}
