@@ -1,4 +1,4 @@
-import { convertTime, convertDay } from "../utils/durationConversion";
+import { convertTimeToRow, convertDayToColumn } from "../utils/durationConversion";
 
 const initialMockData = [
   {
@@ -70,10 +70,10 @@ const initialMockData = [
 const mockData = initialMockData.map((data) => {
   return {
     ...data,
-    colStart: convertDay(data.dayStart),
-    colEnd: convertDay(data.dayEnd) + 1,
-    rowStart: convertTime(data.timeStart),
-    rowEnd: convertTime(data.timeEnd),
+    colStart: convertDayToColumn(data.dayStart),
+    colEnd: convertDayToColumn(data.dayEnd) + 1,
+    rowStart: convertTimeToRow(data.timeStart),
+    rowEnd: convertTimeToRow(data.timeEnd),
   };
 });
 

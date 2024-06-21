@@ -4,17 +4,21 @@ import { motion } from "framer-motion";
 export default function Subject({ data }) {
   return (
     /* FINAL */
-    <div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <motion.div
+      initial={{ opacity: 0, width: 0, height: 0 }}
+      animate={{ opacity: 1, width: "100%", height: "100%" }}
+      transition={{ duration: 0.5, delay: 0.25 }}
       style={{
         gridColumnStart: data.colStart,
         gridColumnEnd: data.colEnd,
         gridRowStart: data.rowStart,
         gridRowEnd: data.rowEnd,
       }}
-      className="bg-cyan-700 outline outline-cyan-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 transition text-red-100 p-[0.1rem] md:p-2 overflow-hidden m-[.1rem] cursor-pointer flex justify-between"
+      className="bg-cyan-700 outline outline-cyan-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden m-[.1rem] cursor-pointer flex justify-between"
     >
+      {/* <div >
+        
+      </div> */}
       <div>
         <p className="text-xs font-bold truncate sm:text-sm md:text-base">
           {data.title} | {data.code}
@@ -31,6 +35,6 @@ export default function Subject({ data }) {
       <p className="place-self-end text-[.625rem] self-start sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
         {data.room}
       </p>
-    </div>
+    </motion.div>
   );
 }

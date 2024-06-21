@@ -6,11 +6,14 @@ import TimeTable from "./TimeTable";
 import AddSubjectButton from "./AddSubjectButton";
 import AddSubjectForm from "./AddSubjectForm";
 import { AnimatePresence } from "framer-motion";
-import { convertTime, convertDay } from "../utils/durationConversion";
+import {
+  convertTimeToRow,
+  convertDayToColumn,
+} from "../utils/durationConversion";
 
 export default function TimeTableGenerator() {
   const [addSubjFormVisible, setAddSubjFormVisible] = useState(false);
-  const [subjects, setSubjects] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     if (addSubjFormVisible) {
@@ -20,24 +23,24 @@ export default function TimeTableGenerator() {
     }
   }, [addSubjFormVisible]);
 
-  const handleAddCourse = (newSubject) => {
+  const handleAddCourse = (course) => {
     const newCourse = {
-      ...newSubject,
-      colStart: convertDay(newSubject.dayStart),
-      colEnd: convertDay(newSubject.dayEnd) + 1,
-      rowStart: convertTime(newSubject.timeStart),
-      rowEnd: convertTime(newSubject.timeEnd),
+      ...course,
+      colStart: convertDayToColumn(course.dayStart),
+      colEnd: convertDayToColumn(course.dayEnd) + 1,
+      rowStart: convertTimeToRow(course.timeStart),
+      rowEnd: convertTimeToRow(course.timeEnd),
     };
-    setSubjects([...subjects, newCourse]);
 
-    console.log(subjects);
+    setCourses([...courses, newCourse]);
+    // console.log(subjects);
   };
 
   return (
     <div className="timetable-generator | relative">
       {/* <Menu /> */}
       <Header />
-      <TimeTable subjects={subjects} />
+      <TimeTable subjects={courses} />
 
       {/* Add Course Button */}
       <AddSubjectButton setAddSubjFormVisible={setAddSubjFormVisible} />

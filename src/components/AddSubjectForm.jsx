@@ -1,36 +1,40 @@
-import React from "react";
+import React, { useEffect, memo } from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import HighlightBackground from "./HighlightBackground";
-import TimeRangePick from "./TimeRangePick";
+import getRandomCourse from "../utils/getRandomCourse";
 
 function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
-  const [subjectTitle, setSubjectTitle] = useState("");
-  const [subjectCode, setSubjectcode] = useState("");
-  const [subjectRoom, setSubjectRoom] = useState("");
-  const [timeStart, setTimeStart] = useState("");
-  const [timeEnd, setTimeEnd] = useState("");
-  const [dayStart, setDayStart] = useState("");
-  const [dayEnd, setDayEnd] = useState("");
+  const [courseTitle, setCourseTitle] = useState("CCE 101");
+  const [classCode, setClassCode] = useState("1492");
+  const [classRoom, setClassRoom] = useState("CLB 2");
+  const [timeStart, setTimeStart] = useState("08:00");
+  const [timeEnd, setTimeEnd] = useState("09:00");
+  const [dayStart, setDayStart] = useState("Monday");
+  const [dayEnd, setDayEnd] = useState("Friday");
+  const [randomCourse, setRandomCourse] = useState("");
 
   const handleAddSubject = (e) => {
     e.preventDefault();
 
-    const newSubject = {
-      id: subjectCode,
-      code: subjectCode,
-      room: subjectRoom,
-      title: subjectTitle,
+    const newCourseObj = {
+      id: classCode,
+      code: classCode,
+      room: classRoom,
+      title: courseTitle,
       timeStart: timeStart,
       timeEnd: timeEnd,
       dayStart: dayStart,
       dayEnd: dayEnd,
     };
 
-    handleAddCourse(newSubject);
-
+    handleAddCourse(newCourseObj);
     setAddSubjFormVisible(false);
   };
+
+  useEffect(() => {
+    setRandomCourse(getRandomCourse());
+  }, [setAddSubjFormVisible]);
 
   return (
     <motion.div
@@ -52,13 +56,14 @@ function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
         <div className="title-code-room | border-b py-4 border-b-neutral-700 mb-4">
           <div className="subject-title-and-color | flex mt-6 items-center ">
             <input
-              onChange={(e) => setSubjectTitle(e.target.value)}
-              value={subjectTitle}
+              onChange={(e) => setCourseTitle(e.target.value)}
+              value={courseTitle}
               type="text"
-              placeholder="Subject Title (e.g., GPE 1)"
+              placeholder={`Course Title (e.g., ${randomCourse})`}
               autoFocus
               className="w-full text-xl leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
             />
+
             {/* Color Choices */}
             <div
               className="color-choices"
@@ -69,16 +74,16 @@ function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
           </div>
 
           <input
-            onChange={(e) => setSubjectcode(e.target.value)}
-            value={subjectCode}
+            onChange={(e) => setClassCode(e.target.value)}
+            value={classCode}
             type="text"
-            placeholder="Subject Code"
+            placeholder="Class Code"
             className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
           />
 
           <input
-            onChange={(e) => setSubjectRoom(e.target.value)}
-            value={subjectRoom}
+            onChange={(e) => setClassRoom(e.target.value)}
+            value={classRoom}
             type="text"
             placeholder="Room"
             className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
@@ -170,4 +175,4 @@ function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
   );
 }
 
-export default AddSubjectForm;
+export default memo(AddSubjectForm);
