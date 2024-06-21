@@ -1,8 +1,6 @@
-import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider, TimePicker, MobileTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import CssBaseline from "@mui/material/CssBaseline";
-import { useEffect, useState } from "react";
 
 const darkTheme = createTheme({
   palette: {
@@ -11,29 +9,38 @@ const darkTheme = createTheme({
 });
 
 function TimeRangePick({ setTimeStart, setTimeEnd }) {
-  const [time, setTime] = useState(null);
+  const handleTimeStart = (time) => {
+    const timeStart = `${time.$H.toString().padStart(2, "0")}:${time.$m
+      .toString()
+      .padEnd(2, "0")}`;
 
-  useEffect(() => {
-    console.log(time?.$H, time?.$m, time?.$s);
-    console.log("time");
-  }, [time]);
+    setTimeStart(timeStart);
+  };
+
+  const handleTimeEnd = (time) => {
+    const timeEnd = `${time.$H.toString().padStart(2, "0")}:${time.$m
+      .toString()
+      .padEnd(2, "0")}`;
+
+    setTimeEnd(timeEnd);
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
-      {/* <CssBaseline /> */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div className="mb-8">
           <h2 className="mb-4 text-center">Time</h2>
           <div className="flex justify-center gap-4">
-            <TimePicker
-              sx={{ width: "flex-1" }}
-              onChange={(time) => setTime(time)}
+            <MobileTimePicker
+              sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}
+              onChange={(e) => handleTimeStart(e)}
               minutesStep={10}
               label="From *"
+              required
             />
-            <TimePicker
-              sx={{ width: "flex-1" }}
-              onChange={(time) => setTime(time)}
+            <MobileTimePicker
+              sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}
+              onChange={(e) => handleTimeEnd(e)}
               minutesStep={10}
               label="To *"
               required

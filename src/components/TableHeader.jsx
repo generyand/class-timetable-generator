@@ -5,7 +5,7 @@ export default function TableHeader() {
     <div className="mt-2 table-header ">
       <div className="text-center table-title">
         <h1 className="text-lg font-semibold sm:text-xl md:text-2xl">
-          Time Table #
+          Schedule #
         </h1>
       </div>
       <div className="days-header | relative grid grid-cols-6 mx-7 sm:mx-8 md:mx-10 lg:mx-12 text-xs sm:text-sm md:text-base lg:text-lg border-collapse text-center">

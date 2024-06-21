@@ -6,10 +6,7 @@ import TimeTable from "./TimeTable";
 import AddSubjectButton from "./AddSubjectButton";
 import AddCourseForm from "./AddCourseForm";
 import { AnimatePresence } from "framer-motion";
-import {
-  convertTimeToRow,
-  convertDayToColumn,
-} from "../utils/durationConversion";
+import { convertTimeToRow, convertDayToColumn } from "../utils/conversions";
 
 export default function TimeTableGenerator() {
   const [addSubjFormVisible, setAddSubjFormVisible] = useState(false);
@@ -33,7 +30,6 @@ export default function TimeTableGenerator() {
     };
 
     setCourses([...courses, newCourse]);
-    // console.log(subjects);
   };
 
   return (

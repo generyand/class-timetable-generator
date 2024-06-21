@@ -12,9 +12,19 @@ const darkTheme = createTheme({
   },
 });
 
-export default function DayRangePick() {
-  const [startDay, setStartDay] = useState("");
-  const [endDay, setEndDay] = useState("");
+export default function DayRangePick({ setDayStart, setDayEnd }) {
+  const [initialDayStart, setInitialDayStart] = useState("");
+  const [initialDayEnd, setInitialDayEnd] = useState("");
+
+  const handleDayStart = (day) => {
+    setDayStart(day);
+    setInitialDayStart(day);
+  };
+
+  const handleDayEnd = (day) => {
+    setDayEnd(day);
+    setInitialDayEnd(day);
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -27,9 +37,9 @@ export default function DayRangePick() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={startDay}
+                value={initialDayStart}
                 label="Age"
-                onChange={(e) => setStartDay(e.target.value)}
+                onChange={(e) => handleDayStart(e.target.value)}
               >
                 <MenuItem value={"monday"}>Monday</MenuItem>
                 <MenuItem value={"tuesday"}>Tuesday</MenuItem>
@@ -41,14 +51,15 @@ export default function DayRangePick() {
             </FormControl>
           </Box>
           <Box sx={{ flex: 1, flexBasis: 210, flexGrow: 0 }}>
-            <FormControl required fullWidth>
+            <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">To</InputLabel>
               <Select
+                sx={{ zIndex: "1" }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={endDay}
+                value={initialDayEnd}
                 label="Age"
-                onChange={(e) => setEndDay(e.target.value)}
+                onChange={(e) => handleDayEnd(e.target.value)}
               >
                 <MenuItem value={"monday"}>Monday</MenuItem>
                 <MenuItem value={"tuesday"}>Tuesday</MenuItem>

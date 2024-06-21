@@ -7,14 +7,14 @@ import TimeRangePick from "./TimeRangePick";
 import DayRangePick from "./DayRangePick";
 
 function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
-  const [courseTitle, setCourseTitle] = useState("CCE 101");
-  const [classCode, setClassCode] = useState("1492");
-  const [classRoom, setClassRoom] = useState("CLB 2");
-  const [timeStart, setTimeStart] = useState("08:00");
-  const [timeEnd, setTimeEnd] = useState("09:00");
-  const [dayStart, setDayStart] = useState("Monday");
-  const [dayEnd, setDayEnd] = useState("Friday");
-  const [randomCourse, setRandomCourse] = useState("");
+  const [courseTitle, setCourseTitle] = useState("");
+  const [classCode, setClassCode] = useState("");
+  const [classRoom, setClassRoom] = useState("");
+  const [timeStart, setTimeStart] = useState("");
+  const [timeEnd, setTimeEnd] = useState("");
+  const [dayStart, setDayStart] = useState("");
+  const [dayEnd, setDayEnd] = useState("");
+  const [randomCourseTitle, setRandomCourse] = useState("");
 
   const handleAddSubject = (e) => {
     e.preventDefault();
@@ -56,12 +56,12 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
       >
         <HighlightBackground />
         <div className="title-code-room | border-b py-4 border-b-gray-800 mb-4">
-          <div className="subject-title-and-color | flex mt-6 items-center ">
+          <div className="subject-title-and-color | flex mt-6 sm:m-0 items-center">
             <input
               onChange={(e) => setCourseTitle(e.target.value)}
               value={courseTitle}
               type="text"
-              placeholder={`Course Title (e.g., ${randomCourse})`}
+              placeholder={`Course Title (e.g., ${randomCourseTitle})`}
               autoFocus
               className="w-full text-xl leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
             />

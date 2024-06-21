@@ -141,12 +141,22 @@ const timeConversion = {
 // };
 
 const dayConversion = {
-  Monday: 1,
-  Tuesday: 2,
-  Wednesday: 3,
-  Thursday: 4,
-  Friday: 5,
-  Saturday: 6,
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+};
+
+const convertIndexToTime = (index) => {
+  const time = index + 8;
+
+  if (time > 11) {
+    const pmTime = time % 12;
+    return pmTime === 0 ? "12PM" : `${pmTime}PM`;
+  }
+  return time + "AM";
 };
 
 const convertTimeToRow = (time) => {
@@ -157,4 +167,4 @@ const convertDayToColumn = (day) => {
   return dayConversion[day];
 };
 
-export { convertTimeToRow, convertDayToColumn };
+export { convertTimeToRow, convertDayToColumn, convertIndexToTime };

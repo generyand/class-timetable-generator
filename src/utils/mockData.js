@@ -1,4 +1,4 @@
-import { convertTimeToRow, convertDayToColumn } from "../utils/durationConversion";
+import { convertTimeToRow, convertDayToColumn } from "../utils/conversions";
 
 const initialMockData = [
   {
