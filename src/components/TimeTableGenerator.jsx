@@ -4,7 +4,7 @@ import Header from "./Header";
 import Menu from "./Menu";
 import TimeTable from "./TimeTable";
 import AddSubjectButton from "./AddSubjectButton";
-import AddSubjectForm from "./AddSubjectForm";
+import AddCourseForm from "./AddCourseForm";
 import { AnimatePresence } from "framer-motion";
 import {
   convertTimeToRow,
@@ -47,7 +47,7 @@ export default function TimeTableGenerator() {
 
       <AnimatePresence>
         {addSubjFormVisible && (
-          <AddSubjectForm
+          <AddCourseForm
             setAddSubjFormVisible={setAddSubjFormVisible}
             handleAddCourse={handleAddCourse}
           />

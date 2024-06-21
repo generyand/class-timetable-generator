@@ -9,7 +9,7 @@ export default {
         // 16: "repeat(16, minmax(0, 1fr))",
         30: "repeat(30, minmax(clamp(1.75rem, 1.8vw, 2.5rem), 1fr))",
         // 60: "repeat(30, minmax(clamp(1.75rem, 0.6vw, 2.5rem), 1fr))",
-        90: "repeat(90, minmax(clamp(0.6rem, 0.6vw, 0.9rem), 1fr))",
+        90: "repeat(90, minmax(clamp(0.6rem, 0.75vw, 0.9rem), 1fr))", // minmax(clamp(0.6rem, 0.6vw, 0.9rem)
 
         // Complex site-specific row configuration
         // layout: "200px minmax(900px, 1fr) 100px",

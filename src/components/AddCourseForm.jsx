@@ -3,8 +3,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import HighlightBackground from "./HighlightBackground";
 import getRandomCourse from "../utils/getRandomCourse";
+import TimeRangePick from "./TimeRangePick";
 
-function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
+function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
   const [courseTitle, setCourseTitle] = useState("CCE 101");
   const [classCode, setClassCode] = useState("1492");
   const [classRoom, setClassRoom] = useState("CLB 2");
@@ -91,8 +92,9 @@ function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
         </div>
 
         {/* <TimeRangePick /> */}
+        <TimeRangePick setTimeStart={setTimeStart} setTimeEnd={setTimeEnd} />
 
-        <div className="time | mb-8 ">
+        {/* <div className="time | mb-8 ">
           <div className="flex gap-4">
             <div className="flex flex-col time-start ">
               <label className="mb-2" htmlFor="time-start">
@@ -152,7 +154,7 @@ function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Cancel and Save Buttons */}
         <div className="cancel-and-save | fixed sm:sticky bottom-0 right-0 left-0 flex">
@@ -175,4 +177,4 @@ function AddSubjectForm({ setAddSubjFormVisible, handleAddCourse }) {
   );
 }
 
-export default memo(AddSubjectForm);
+export default memo(AddCourseForm);
