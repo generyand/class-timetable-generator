@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import HighlightBackground from "./HighlightBackground";
 import getRandomCourse from "../utils/getRandomCourse";
 import TimeRangePick from "./TimeRangePick";
+import DayRangePick from "./DayRangePick";
 
 function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
   const [courseTitle, setCourseTitle] = useState("CCE 101");
@@ -91,8 +92,9 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
           />
         </div>
 
-        {/* <TimeRangePick /> */}
         <TimeRangePick setTimeStart={setTimeStart} setTimeEnd={setTimeEnd} />
+
+        <DayRangePick />
 
         {/* <div className="time | mb-8 ">
           <div className="flex gap-4">

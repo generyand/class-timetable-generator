@@ -1,7 +1,7 @@
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+// import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect, useState } from "react";
 
 const darkTheme = createTheme({
@@ -22,7 +22,7 @@ function TimeRangePick({setTimeStart, setTimeEnd}) {
     <ThemeProvider theme={darkTheme}>
       {/* <CssBaseline /> */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div className="">
+        <div className="mb-8">
           <h2 className="mb-4 text-center">Time</h2>
           <div className="flex justify-center gap-4">
             <TimePicker
