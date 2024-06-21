@@ -44,7 +44,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="add-subject-form | fixed inset-0 z-[10]"
+      className="add-subject-form | fixed inset-0 z-[10] flex items-center justify-center"
     >
       <div
         className="overlay"
@@ -55,7 +55,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
         className="w-full h-[100vh] max-w-[640px] p-4 mx-auto bg-gray-900 z-20 relative sm:h-auto sm:rounded-lg overflow-hidden"
       >
         <HighlightBackground />
-        <div className="title-code-room | border-b py-4 border-b-neutral-700 mb-4">
+        <div className="title-code-room | border-b py-4 border-b-gray-800 mb-4">
           <div className="subject-title-and-color | flex mt-6 items-center ">
             <input
               onChange={(e) => setCourseTitle(e.target.value)}
