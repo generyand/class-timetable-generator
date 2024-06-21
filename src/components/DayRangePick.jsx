@@ -51,7 +51,7 @@ export default function DayRangePick({ setDayStart, setDayEnd }) {
             </FormControl>
           </Box>
           <Box sx={{ flex: 1, flexBasis: 210, flexGrow: 0, zIndex: "0" }}>
-            <FormControl fullWidth>
+            <FormControl required fullWidth>
               <InputLabel id="demo-simple-select-label">To</InputLabel>
               <Select
                 sx={{ zIndex: "1" }}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 
 export default function Subject({ data }) {
   return (
@@ -14,14 +15,11 @@ export default function Subject({ data }) {
         gridRowStart: data.rowStart,
         gridRowEnd: data.rowEnd,
       }}
-      className="bg-cyan-700 outline outline-cyan-700 outline-[0.1rem] rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between"
+      className="bg-cyan-700 border border-cyan-700 rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between"
     >
-      {/* <div >
-        
-      </div> */}
       <div>
         <p className="text-xs font-bold truncate sm:text-sm md:text-base">
-          {data.title} | {data.code}
+          {data.title} {data.title && ` | ${data.code}`}
         </p>
         <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
           {data.dayStart.toUpperCase().slice(0, 3)} -{" "}
@@ -32,9 +30,12 @@ export default function Subject({ data }) {
         </p>
       </div>
 
-      <p className="place-self-end text-[.625rem] self-start sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
-        {data.room}
-      </p>
+      <span className="place-self-end text-[.625rem] self-start sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light flex items-center justify-end text-end">
+        {data.room && (
+          <BuildingOfficeIcon className="inline w-[.625rem] h-[.625rem] mr-[.1rem] mt-[-.125rem]" />
+        )}{" "}
+        <p>{data.room}</p>
+      </span>
     </motion.div>
   );
 }
