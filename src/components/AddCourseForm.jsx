@@ -52,7 +52,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
       ></div>
       <form
         onSubmit={handleAddSubject}
-        className="w-full h-[100vh] max-w-[640px] p-4 mx-auto bg-gray-900 z-20 relative sm:h-auto sm:rounded-lg overflow-hidden"
+        className="w-full h-[100vh] relative max-w-[640px] p-4 mx-auto bg-gray-900 z-20 sm:h-auto sm:rounded-lg overflow-hidden"
       >
         <HighlightBackground />
         <div className="title-code-room | border-b py-4 border-b-gray-800 mb-4">
@@ -97,7 +97,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
         <DayRangePick setDayStart={setDayStart} setDayEnd={setDayEnd} />
 
         {/* Cancel and Save Buttons */}
-        <div className="cancel-and-save | fixed sm:sticky bottom-0 right-0 left-0 flex">
+        <div className="cancel-and-save | absolute sm:static bottom-0 right-0 left-0 flex">
           <button
             onClick={() => setAddSubjFormVisible(false)}
             type="button"
