@@ -1,5 +1,4 @@
-import React, { useEffect, memo } from "react";
-import { useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { motion } from "framer-motion";
 import HighlightBackground from "./HighlightBackground";
 import getRandomCourse from "../utils/getRandomCourse";
@@ -7,7 +6,7 @@ import TimeRangePick from "./TimeRangePick";
 import DayRangePick from "./DayRangePick";
 import FormCancelSaveBtns from "./FormCancelSaveBtns";
 
-function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
+function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
   const [courseTitle, setCourseTitle] = useState("");
   const [classCode, setClassCode] = useState("");
   const [classRoom, setClassRoom] = useState("");
@@ -32,12 +31,12 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
     };
 
     handleAddCourse(newCourseObj);
-    setAddSubjFormVisible(false);
+    setAddCourseFormVisible(false);
   };
 
   useEffect(() => {
     setRandomCourse(getRandomCourse());
-  }, [setAddSubjFormVisible]);
+  }, [setAddCourseFormVisible]);
 
   return (
     <motion.div
@@ -49,7 +48,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
     >
       <div
         className="overlay"
-        onClick={() => setAddSubjFormVisible(false)}
+        onClick={() => setAddCourseFormVisible(false)}
       ></div>
       <form
         onSubmit={handleAddSubject}
@@ -59,6 +58,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
         <div className="title-code-room | border-b py-4 border-b-gray-800 mb-4">
           <div className="subject-title-and-color | flex mt-6 sm:m-0 items-center">
             <input
+              required
               onChange={(e) => setCourseTitle(e.target.value)}
               value={courseTitle}
               type="text"
@@ -68,11 +68,11 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
             />
 
             {/* Color Choices */}
-            <div
-              className="color-choices"
-              onClick={() => alert("Color change button clicked")}
-            >
-              <div className="w-6 h-6 mx-4 rounded-full bg-cyan-500"></div>
+            <div className="div">
+              <button
+                className="color-choices | bg-cyan-500 rounded-full w-6 h-6 aspect-square mx-4"
+                onClick={() => alert("Color change button clicked")}
+              ></button>
             </div>
           </div>
 
@@ -98,7 +98,7 @@ function AddCourseForm({ setAddSubjFormVisible, handleAddCourse }) {
         <DayRangePick setDayStart={setDayStart} setDayEnd={setDayEnd} />
 
         {/* Cancel and Save Buttons */}
-        <FormCancelSaveBtns setAddSubjFormVisible={setAddSubjFormVisible} />
+        <FormCancelSaveBtns setAddCourseFormVisible={setAddCourseFormVisible} />
       </form>
     </motion.div>
   );

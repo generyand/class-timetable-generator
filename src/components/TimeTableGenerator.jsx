@@ -1,24 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import Header from "./Header";
 import Menu from "./Menu";
 import TimeTable from "./TimeTable";
-import AddSubjectButton from "./AddSubjectButton";
-import AddCourseForm from "./AddCourseForm";
+
 import { AnimatePresence } from "framer-motion";
 import { convertTimeToRow, convertDayToColumn } from "../utils/conversions";
+import ButtonWithCourseForm from "./ButtonWithCourseForm";
 
 export default function TimeTableGenerator() {
-  const [addSubjFormVisible, setAddSubjFormVisible] = useState(false);
   const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    if (addSubjFormVisible) {
-      document.body.classList.add("scroll-disabled");
-    } else {
-      document.body.classList.remove("scroll-disabled");
-    }
-  }, [addSubjFormVisible]);
 
   const handleAddCourse = (course) => {
     const newCourse = {
@@ -37,18 +28,7 @@ export default function TimeTableGenerator() {
       {/* <Menu /> */}
       <Header />
       <TimeTable subjects={courses} />
-
-      {/* Add Course Button */}
-      <AddSubjectButton setAddSubjFormVisible={setAddSubjFormVisible} />
-
-      <AnimatePresence>
-        {addSubjFormVisible && (
-          <AddCourseForm
-            setAddSubjFormVisible={setAddSubjFormVisible}
-            handleAddCourse={handleAddCourse}
-          />
-        )}
-      </AnimatePresence>
+      <ButtonWithCourseForm handleAddCourse={handleAddCourse} />
     </div>
   );
 }
