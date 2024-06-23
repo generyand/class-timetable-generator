@@ -15,11 +15,16 @@ export default function Subject({ data }) {
         gridRowStart: data.rowStart,
         gridRowEnd: data.rowEnd,
       }}
-      className="bg-cyan-700 border border-cyan-700 rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between"
+      className="bg-cyan-700 border border-cyan-700 rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between flex-wrap "
     >
-      <div>
-        <p className="text-xs font-bold truncate sm:text-sm md:text-base">
-          {data.title} {data.title && ` | ${data.code}`}
+      <div className="self-stretch flex-1 ">
+        <p className="text-xs font-bold sm:text-sm md:text-base">
+          {data.title}{" "}
+          {data.title && (
+            <>
+              <span className="mx-[0.1rem] font-light">|</span> {data.code}
+            </>
+          )}
         </p>
         <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
           {data.dayStart.toUpperCase().slice(0, 3)} -{" "}
@@ -30,12 +35,12 @@ export default function Subject({ data }) {
         </p>
       </div>
 
-      <span className="place-self-end text-[.625rem] self-start sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light flex items-center justify-end text-end">
+      <div className="place-self-end text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light flex items-center justify-end text-end  flex-1">
         {data.room && (
-          <BuildingOfficeIcon className="inline w-[.625rem] sm:w-[.75rem] md:w-[.875rem] aspect-square mr-[.1rem] sm:mr-[.25rem] mt-[-.125rem] sm:mt-0" />
+          <BuildingOfficeIcon className="inline w-[.625rem] sm:w-[.75rem] md:w-[.875rem] aspect-square mr-[.1rem] sm:mr-[.25rem] sm:mt-0" />
         )}{" "}
         <p>{data.room}</p>
-      </span>
+      </div>
     </motion.div>
   );
 }
