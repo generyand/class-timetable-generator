@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TableHeader() {
   return (
-    <div className="mt-2 table-header ">
+    <div className="table-header | mt-4">
       <div className="text-center table-title">
         <h1 className="text-lg font-semibold sm:text-xl md:text-2xl">
           Schedule #

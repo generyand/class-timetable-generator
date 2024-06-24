@@ -3,9 +3,9 @@ import TableHeader from "./TableHeader";
 import MobileNavHeader from "./MobileNavHeader";
 
 function Header() {
-  alert("Header Rerendered!");
+  // alert("Header Rerendered!");
   return (
-    <header className="header | sticky top-0 items-center w-full z-[10]">
+    <header className="header | sticky top-0 items-center w-full z-[60]">
       {/* NavHeader */}
       <MobileNavHeader />
 

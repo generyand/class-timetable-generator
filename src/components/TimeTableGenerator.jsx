@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import Header from "./Header";
-import Menu from "./Menu";
 import TimeTable from "./TimeTable";
-
-import { AnimatePresence } from "framer-motion";
 import { convertTimeToRow, convertDayToColumn } from "../utils/conversions";
 import ButtonWithCourseForm from "./ButtonWithCourseForm";
+import Navigation from "./Navigation";
+import SideBar from "./SideBar";
 
 export default function TimeTableGenerator() {
   const [courses, setCourses] = useState([]);
@@ -24,8 +23,8 @@ export default function TimeTableGenerator() {
   };
 
   return (
-    <div className="timetable-generator | relative">
-      {/* <Menu /> */}
+    <div className="timetable-generator | relative ">
+      <SideBar />
       <Header />
       <TimeTable subjects={courses} />
       <ButtonWithCourseForm handleAddCourse={handleAddCourse} />
