@@ -11,7 +11,7 @@ import { AnimatePresence } from "framer-motion";
 export default function TimeTableGenerator() {
   const [courses, setCourses] = useState([]);
   const [sideBarVisible, setSideBarVisible] = useState(false);
-  const { setItem } = useLocalStorage("subjects");
+  const { setItem, getItem, removeItem } = useLocalStorage("subjects");
 
   const handleSideBarVisible = useCallback(() => {
     setSideBarVisible(!sideBarVisible);
@@ -30,8 +30,13 @@ export default function TimeTableGenerator() {
     setItem([...courses, newCourse]);
   };
 
+  const handleClearSchedule = useCallback(() => {
+    setCourses([]);
+    removeItem();
+  }, []);
+
   useEffect(() => {
-    setCourses(JSON.parse(localStorage.getItem("subjects")));
+    setCourses(getItem() || []);
   }, []);
 
   return (
@@ -39,7 +44,10 @@ export default function TimeTableGenerator() {
       {/* <Navigation /> */}
       <AnimatePresence>
         {sideBarVisible && (
-          <SideBar handleSideBarVisible={handleSideBarVisible} />
+          <SideBar
+            handleSideBarVisible={handleSideBarVisible}
+            handleClearSchedule={handleClearSchedule}
+          />
         )}
       </AnimatePresence>
 

@@ -3,7 +3,12 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { motion, spring, useSpring } from "framer-motion";
 import Logo from "./Logo";
 
-function SideBar({ handleSideBarVisible }) {
+function SideBar({ handleSideBarVisible, handleClearSchedule }) {
+  const handleClear = () => {
+    handleSideBarVisible();
+    handleClearSchedule();
+  };
+
   return (
     <motion.aside
       initial={{ x: "-100%" }}
@@ -26,7 +31,9 @@ function SideBar({ handleSideBarVisible }) {
             <button className="w-full">About</button>
           </li>
           <li className="py-2 hover:bg-cyan-500">
-            <button className="w-full">Clear Schedule</button>
+            <button onClick={handleClear} className="w-full">
+              Clear Schedule
+            </button>
           </li>
         </ul>
       </main>
