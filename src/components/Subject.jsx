@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
+import { convert12FormatTo24 } from "../utils/conversions";
 
 export default function Subject({ data }) {
   return (
@@ -31,7 +32,8 @@ export default function Subject({ data }) {
           {data.dayEnd.toUpperCase().slice(0, 3)}
         </p>
         <p className="text-[.625rem] sm:text-[.75rem] md:text-[.875rem] opacity-90 font-light">
-          {data.timeStart} - {data.timeEnd}
+          {convert12FormatTo24(data.timeStart)} -{" "}
+          {convert12FormatTo24(data.timeEnd)}
         </p>
       </div>
 

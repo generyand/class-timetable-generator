@@ -44,7 +44,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="add-subject-form | fixed inset-0 z-[10] flex items-center justify-center"
+      className="add-subject-form | fixed inset-0 z-[70] flex items-center justify-center"
     >
       <div
         className="overlay"
@@ -62,7 +62,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
               onChange={(e) => setCourseTitle(e.target.value)}
               value={courseTitle}
               type="text"
-              placeholder={`Course Title (e.g., ${randomCourseTitle})`}
+              placeholder={`Subject Title (e.g., ${randomCourseTitle})`}
               autoFocus
               className="w-full text-xl leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
             />
