@@ -21,9 +21,7 @@ function SideBar({ handleSideBarVisible, handleClearSchedule }) {
         exit={{ opacity: 0 }}
         onClick={handleSideBarVisible}
         className="absolute inset-0 bg-opacity-80 bg-gray-950"
-      >
-        asdfasdf
-      </motion.div>
+      ></motion.div>
       <motion.aside
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}

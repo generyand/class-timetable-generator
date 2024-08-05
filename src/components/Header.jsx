@@ -10,7 +10,7 @@ function Header({ handleSideBarVisible }) {
       <MobileNavHeader handleSideBarVisible={handleSideBarVisible} />
 
       {/* Table Header */}
-      <TableHeader />
+      {/* <TableHeader /> */}
     </header>
   );
 }

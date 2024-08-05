@@ -41,7 +41,6 @@ export default function TimeTableGenerator() {
 
   return (
     <div className="timetable-generator | relative">
-      {/* <Navigation /> */}
       <AnimatePresence>
         {sideBarVisible && (
           <SideBar
@@ -54,6 +53,7 @@ export default function TimeTableGenerator() {
       <Header handleSideBarVisible={handleSideBarVisible} />
       <TimeTable subjects={courses} />
       <ButtonWithCourseForm handleAddCourse={handleAddCourse} />
+
     </div>
   );
 }

@@ -60,7 +60,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
             <input
               required
               onChange={(e) => setCourseTitle(e.target.value)}
-              value={courseTitle}
+              value={courseTitle.toUpperCase()}
               type="text"
               placeholder={`Subject Title (e.g., ${randomCourseTitle})`}
               autoFocus
@@ -78,7 +78,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
 
           <input
             onChange={(e) => setClassCode(e.target.value)}
-            value={classCode}
+            value={classCode.toUpperCase()}
             type="text"
             placeholder="Class Code"
             className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
@@ -86,7 +86,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
 
           <input
             onChange={(e) => setClassRoom(e.target.value)}
-            value={classRoom}
+            value={classRoom.toUpperCase()}
             type="text"
             placeholder="Room"
             className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
