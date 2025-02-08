@@ -53,7 +53,6 @@ export default function TimeTableGenerator() {
       <Header handleSideBarVisible={handleSideBarVisible} />
       <TimeTable subjects={courses} />
       <ButtonWithCourseForm handleAddCourse={handleAddCourse} />
-
     </div>
   );
 }

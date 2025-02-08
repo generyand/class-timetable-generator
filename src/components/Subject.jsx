@@ -16,7 +16,7 @@ export default function Subject({ data }) {
         gridRowStart: data.rowStart,
         gridRowEnd: data.rowEnd,
       }}
-      className="bg-cyan-700 border border-cyan-700 rounded-sm md:rounded-md bg-opacity-50 active:bg-opacity-80 hover:bg-opacity-80 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between flex-wrap "
+      className="bg-cyan-700/50 border border-cyan-700 rounded-xs md:rounded-md active:bg-cyan-700/80 hover:bg-cyan-700/60 text-red-100 p-[0.1rem] md:p-2 overflow-hidden cursor-pointer flex justify-between flex-wrap "
     >
       <div className="self-stretch flex-1 ">
         <p className="text-xs font-bold sm:text-sm md:text-base">

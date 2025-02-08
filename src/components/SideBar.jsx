@@ -14,20 +14,20 @@ function SideBar({ handleSideBarVisible, handleClearSchedule }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[70]">
+    <div className="fixed inset-0 z-70">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={handleSideBarVisible}
-        className="absolute inset-0 bg-opacity-80 bg-gray-950"
+        className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm"
       ></motion.div>
       <motion.aside
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
         exit={{ x: "-100%" }}
         transition={{ duration: 0.1 }}
-        className="menu | w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 h-full fixed z-[100] bg-gray-950 "
+        className="menu | w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 h-full fixed z-100 bg-gray-950 "
       >
         {/* Header */}
         <header className="header | sticky top-0 items-center w-full flex justify-between border-b border-neutral-800 px-4 py-3 bg-inherit">

@@ -44,7 +44,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="add-subject-form | fixed inset-0 z-[70] flex items-center justify-center"
+      className="add-subject-form | fixed inset-0 z-70 flex items-center justify-center"
     >
       <div
         className="overlay"
@@ -64,7 +64,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
               type="text"
               placeholder={`Subject Title (e.g., ${randomCourseTitle})`}
               autoFocus
-              className="w-full text-xl leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
+              className="w-full text-xl leading-tight text-white bg-transparent rounded-sm appearance-none focus:outline-hidden focus:shadow-outline"
             />
 
             {/* Color Choices */}
@@ -81,7 +81,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
             value={classCode.toUpperCase()}
             type="text"
             placeholder="Class Code"
-            className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
+            className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded-sm appearance-none focus:outline-hidden focus:shadow-outline"
           />
 
           <input
@@ -89,7 +89,7 @@ function AddCourseForm({ setAddCourseFormVisible, handleAddCourse }) {
             value={classRoom.toUpperCase()}
             type="text"
             placeholder="Room"
-            className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded appearance-none focus:outline-none focus:shadow-outline"
+            className="w-full mt-4 text-base font-light leading-tight text-white bg-transparent rounded-sm appearance-none focus:outline-hidden focus:shadow-outline"
           />
         </div>
 
