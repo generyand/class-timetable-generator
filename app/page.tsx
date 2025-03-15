@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Calendar, Upload, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -33,6 +34,7 @@ export default function Home() {
             </nav>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Button variant="ghost" className="hidden sm:inline-flex hover:bg-primary/5">Sign in</Button>
             <Button className="shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5">Get Started</Button>
           </div>
