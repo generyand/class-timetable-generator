@@ -1,8 +1,35 @@
-import { Button } from "@/components/ui/button";
-import { Calendar, Upload, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+"use client"
+
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Upload, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { Skeleton } from "@/components/ui/skeleton"
+
+interface GridCell {
+  isActive: boolean;
+  isSecondary: boolean;
+}
 
 export default function Home() {
+  const [gridCells, setGridCells] = React.useState<GridCell[]>(
+    Array(25).fill({ isActive: false, isSecondary: false })
+  );
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // Generate random grid on client-side only
+    setGridCells(
+      Array(25).fill(null).map(() => ({
+        isActive: Math.random() > 0.7,
+        isSecondary: Math.random() > 0.5
+      }))
+    );
+    setIsLoading(false);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-secondary/10 relative overflow-hidden">
       {/* Background Elements */}
@@ -13,47 +40,47 @@ export default function Home() {
 
       {/* Navigation */}
       <header className="fixed top-0 w-full border-b border-border/40 bg-background/80 backdrop-blur-md z-50">
-        <div className="container max-w-[1440px] mx-auto px-6 sm:px-8 flex h-16 items-center justify-between">
+        <div className="mx-auto px-6 sm:px-8 flex h-16 items-center justify-between max-w-[1440px]">
           <div className="flex items-center gap-8">
             <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Oras
             </h2>
             <nav className="hidden md:flex gap-8">
-              <a href="#features" className="text-sm font-medium hover:text-primary transition-colors relative group">
-                Features
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </a>
-              <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors relative group">
-                How it works
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </a>
-              <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors relative group">
-                Pricing
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              {["Features", "How it works", "Pricing"].map((item) => (
+                <a 
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="text-sm font-medium hover:text-primary transition-colors relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ))}
             </nav>
           </div>
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <Button variant="ghost" className="hidden sm:inline-flex hover:bg-primary/5">Sign in</Button>
-            <Button className="shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5">Get Started</Button>
+            <Button className="shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5">
+              Get Started
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <main className="container max-w-[1440px] mx-auto px-6 sm:px-8">
+      <main className="mx-auto px-6 sm:px-8 max-w-[1440px]">
         <div className="min-h-[calc(100vh-4rem)] flex items-center py-24">
           <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
             <div className="flex flex-col gap-10 text-center lg:text-left">
               {/* Eyebrow */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mx-auto lg:mx-0 w-fit">
-                <span className="relative flex h-2 w-2">
+              <Badge variant="secondary" className="w-fit mx-auto lg:mx-0 bg-primary/10 text-primary hover:bg-primary/15">
+                <span className="relative flex h-2 w-2 mr-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
                 New AI-Powered Features
-              </div>
+              </Badge>
               
               <div className="space-y-8">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
@@ -74,7 +101,7 @@ export default function Home() {
                     Try AI Generation
                   </span>
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2 h-14 px-8 text-lg border-primary/20 hover:bg-primary/5 transition-all">
+                <Button size="lg" variant="outline" className="gap-2 h-14 px-8 text-lg border-primary/20 hover:bg-primary/5">
                   <Calendar className="w-5 h-5" />
                   Create Manual Schedule
                 </Button>
@@ -85,27 +112,27 @@ export default function Home() {
                 <div className="flex items-center justify-center lg:justify-start gap-2 text-sm text-muted-foreground">
                   <span className="flex -space-x-2">
                     {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className={`w-8 h-8 rounded-full border-2 border-background bg-secondary/80`}></div>
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-secondary/80"></div>
                     ))}
                   </span>
                   <span>Trusted by <span className="font-medium text-foreground">thousands</span> of students</span>
                 </div>
                 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-12 p-8 rounded-xl bg-white/5 border border-border/50 backdrop-blur-sm shadow-xl">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">50K+</div>
-                    <div className="text-sm text-muted-foreground mt-1">Active Users</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">98%</div>
-                    <div className="text-sm text-muted-foreground mt-1">Success Rate</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">24/7</div>
-                    <div className="text-sm text-muted-foreground mt-1">AI Support</div>
-                  </div>
-                </div>
+                <Card className="grid grid-cols-3 gap-12 p-8 bg-white/5 border-border/50">
+                  {[
+                    { value: "50K+", label: "Active Users" },
+                    { value: "98%", label: "Success Rate" },
+                    { value: "24/7", label: "AI Support" }
+                  ].map(({ value, label }) => (
+                    <div key={label} className="text-center">
+                      <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                        {value}
+                      </div>
+                      <div className="text-sm text-muted-foreground mt-1">{label}</div>
+                    </div>
+                  ))}
+                </Card>
               </div>
             </div>
 
@@ -113,7 +140,7 @@ export default function Home() {
             <div className="relative lg:h-[600px] flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '10s' }}></div>
               
-              <div className="relative w-full max-w-[600px] bg-white/5 border border-border/50 rounded-2xl p-8 backdrop-blur-sm shadow-2xl transition-all hover:shadow-accent/10 hover:border-accent/20">
+              <Card className="relative w-full max-w-[600px] bg-white/5 border-border/50 p-8 hover:shadow-accent/10 hover:border-accent/20">
                 {/* Timetable Header */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
@@ -130,22 +157,25 @@ export default function Home() {
                 
                 {/* Timetable Grid */}
                 <div className="grid grid-cols-5 gap-4">
-                  {Array.from({ length: 25 }).map((_, i) => {
-                    const isActive = Math.random() > 0.7;
-                    const isHovered = i === 7; // Simulate hover on a specific cell
+                  {gridCells.map((cell, i) => {
+                    const isHovered = i === 7;
                     
+                    if (isLoading) {
+                      return <Skeleton key={i} className="aspect-square rounded-lg" />;
+                    }
+
                     return (
                       <div
                         key={i}
                         className={`aspect-square rounded-lg relative group transition-all ${
-                          isActive 
+                          cell.isActive 
                             ? "bg-primary/15 border border-primary/20" 
-                            : Math.random() > 0.5 
+                            : cell.isSecondary 
                             ? "bg-secondary/15 border border-secondary/20" 
                             : "bg-muted border border-border/30"
                         } ${isHovered ? "ring-2 ring-accent/50 shadow-lg" : ""}`}
                       >
-                        {isActive && (
+                        {cell.isActive && (
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <div className="text-[10px] font-medium text-primary">CS 101</div>
                           </div>
@@ -156,25 +186,26 @@ export default function Home() {
                 </div>
                 
                 {/* Floating Elements */}
-                <div className="absolute -top-6 -right-6 bg-background border border-border/50 shadow-lg rounded-lg p-4 flex items-center gap-3 hover:border-primary/30 hover:shadow-primary/10 transition-all">
+                <Card className="absolute -top-6 -right-6 shadow-lg p-4 flex items-center gap-3 hover:border-primary/30 hover:shadow-primary/10">
                   <div className="p-2 rounded-full bg-primary/10">
                     <Upload className="w-4 h-4 text-primary" />
                   </div>
                   <span className="text-sm font-medium">AI Schedule Generation</span>
-                </div>
-                <div className="absolute -bottom-6 -left-6 bg-background border border-border/50 shadow-lg rounded-lg p-4 flex items-center gap-3 hover:border-accent/30 hover:shadow-accent/10 transition-all">
+                </Card>
+                
+                <Card className="absolute -bottom-6 -left-6 shadow-lg p-4 flex items-center gap-3 hover:border-accent/30 hover:shadow-accent/10">
                   <div className="p-2 rounded-full bg-accent/10">
                     <Calendar className="w-4 h-4 text-accent" />
                   </div>
                   <span className="text-sm font-medium">Smart Timetabling</span>
-                </div>
+                </Card>
                 
                 {/* Feature Badges */}
-                <div className="absolute -bottom-3 right-10 bg-background border border-border/50 shadow-md rounded-full py-1 px-3 flex items-center gap-2 text-xs font-medium">
-                  <CheckCircle2 className="w-3 h-3 text-primary" />
-                  <span>Conflict Detection</span>
-                </div>
-              </div>
+                <Badge variant="outline" className="absolute -bottom-3 right-10 shadow-md">
+                  <CheckCircle2 className="w-3 h-3 text-primary mr-1" />
+                  Conflict Detection
+                </Badge>
+              </Card>
             </div>
           </div>
         </div>
