@@ -46,7 +46,7 @@ export default function Home() {
               Oras
             </h2>
             <nav className="hidden md:flex gap-8">
-              {["Features", "How it works", "Pricing"].map((item) => (
+              {["How it works", "Examples", "Get Started"].map((item) => (
                 <a 
                   key={item}
                   href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
@@ -70,8 +70,8 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="mx-auto px-6 sm:px-8 max-w-[1440px]">
-        <div className="min-h-[calc(100vh-4rem)] flex items-center py-24">
-          <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
+        <div className="min-h-[calc(100vh-4rem)] flex items-center pt-20 md:pt-24 lg:pt-28 pb-16 md:pb-20">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center w-full">
             <div className="flex flex-col gap-10 text-center lg:text-left">
               {/* Eyebrow */}
               <Badge variant="secondary" className="w-fit mx-auto lg:mx-0 bg-primary/10 text-primary hover:bg-primary/15">
@@ -79,16 +79,16 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                New AI-Powered Features
+                AI-Powered Schedule Converter
               </Badge>
               
               <div className="space-y-8">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
-                  AI-Powered Schedule
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Management for Students</span>
+                  Transform Your
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Schedule into Art</span>
                 </h1>
                 <p className="text-lg xl:text-xl text-muted-foreground max-w-[650px] mx-auto lg:mx-0 leading-relaxed">
-                  Transform your academic life with intelligent timetable generation. Upload your schedule or let our AI create the perfect timetable for you.
+                  Upload a photo of your class schedule and let our AI transform it into a beautiful, organized digital timetable in seconds.
                 </p>
               </div>
               
@@ -97,39 +97,58 @@ export default function Home() {
                 <Button size="lg" className="gap-2 h-14 px-8 text-lg group relative overflow-hidden shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   <span className="relative flex items-center gap-2">
-                    <Sparkles className="w-5 h-5" />
-                    Try AI Generation
+                    <Upload className="w-5 h-5" />
+                    Upload Schedule
                   </span>
                 </Button>
                 <Button size="lg" variant="outline" className="gap-2 h-14 px-8 text-lg border-primary/20 hover:bg-primary/5">
                   <Calendar className="w-5 h-5" />
-                  Create Manual Schedule
+                  View Examples
                 </Button>
               </div>
               
-              {/* Social Proof */}
+              {/* Features Preview */}
               <div className="flex flex-col gap-6">
-                <div className="flex items-center justify-center lg:justify-start gap-2 text-sm text-muted-foreground">
-                  <span className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-secondary/80"></div>
-                    ))}
-                  </span>
-                  <span>Trusted by <span className="font-medium text-foreground">thousands</span> of students</span>
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-muted-foreground">
+                  <Badge variant="outline" className="bg-background/50 backdrop-blur-sm">
+                    <Upload className="mr-2 h-4 w-4 text-primary" />
+                    Image to Timetable
+                  </Badge>
+                  <Badge variant="outline" className="bg-background/50 backdrop-blur-sm">
+                    <Sparkles className="mr-2 h-4 w-4 text-primary" />
+                    Beautiful Design
+                  </Badge>
+                  <Badge variant="outline" className="bg-background/50 backdrop-blur-sm">
+                    <CheckCircle2 className="mr-2 h-4 w-4 text-primary" />
+                    Instant Results
+                  </Badge>
                 </div>
                 
-                {/* Stats */}
-                <Card className="grid grid-cols-3 gap-12 p-8 bg-white/5 border-border/50">
+                {/* Key Benefits */}
+                <Card className="grid sm:grid-cols-3 gap-6 p-8 bg-white/5 border-border/50">
                   {[
-                    { value: "50K+", label: "Active Users" },
-                    { value: "98%", label: "Success Rate" },
-                    { value: "24/7", label: "AI Support" }
-                  ].map(({ value, label }) => (
-                    <div key={label} className="text-center">
-                      <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        {value}
+                    {
+                      icon: <Upload className="h-6 w-6 text-primary" />,
+                      title: "Easy Upload",
+                      description: "Just snap a photo or upload your schedule image"
+                    },
+                    {
+                      icon: <Sparkles className="h-6 w-6 text-primary" />,
+                      title: "AI Processing",
+                      description: "Our AI extracts and organizes your schedule data"
+                    },
+                    {
+                      icon: <Calendar className="h-6 w-6 text-primary" />,
+                      title: "Beautiful Result",
+                      description: "Get a visually stunning digital timetable"
+                    }
+                  ].map(({ icon, title, description }) => (
+                    <div key={title} className="text-center flex flex-col items-center gap-2">
+                      <div className="p-3 rounded-full bg-primary/10 backdrop-blur-sm">
+                        {icon}
                       </div>
-                      <div className="text-sm text-muted-foreground mt-1">{label}</div>
+                      <h3 className="font-medium text-lg">{title}</h3>
+                      <p className="text-sm text-muted-foreground">{description}</p>
                     </div>
                   ))}
                 </Card>
@@ -190,20 +209,20 @@ export default function Home() {
                   <div className="p-2 rounded-full bg-primary/10">
                     <Upload className="w-4 h-4 text-primary" />
                   </div>
-                  <span className="text-sm font-medium">AI Schedule Generation</span>
+                  <span className="text-sm font-medium">Upload Schedule</span>
                 </Card>
                 
                 <Card className="absolute -bottom-6 -left-6 shadow-lg p-4 flex items-center gap-3 hover:border-accent/30 hover:shadow-accent/10">
                   <div className="p-2 rounded-full bg-accent/10">
-                    <Calendar className="w-4 h-4 text-accent" />
+                    <Sparkles className="w-4 h-4 text-accent" />
                   </div>
-                  <span className="text-sm font-medium">Smart Timetabling</span>
+                  <span className="text-sm font-medium">Beautiful Design</span>
                 </Card>
                 
                 {/* Feature Badges */}
                 <Badge variant="outline" className="absolute -bottom-3 right-10 shadow-md">
-                  <CheckCircle2 className="w-3 h-3 text-primary mr-1" />
-                  Conflict Detection
+                  <Calendar className="w-3 h-3 text-primary mr-1" />
+                  Preview
                 </Badge>
               </Card>
             </div>
