@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar, Upload, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme/toggle"
 import { Skeleton } from "@/components/ui/skeleton"
+import { motion } from "motion/react"
 
 interface GridCell {
   isActive: boolean;
@@ -29,6 +30,29 @@ export default function Home() {
     );
     setIsLoading(false);
   }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-secondary/10 relative overflow-hidden">
@@ -72,17 +96,24 @@ export default function Home() {
       <main className="mx-auto px-6 sm:px-8 max-w-[1440px]">
         <div className="min-h-[calc(100vh-4rem)] flex items-center pt-20 md:pt-24 lg:pt-28 pb-16 md:pb-20">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center w-full">
-            <div className="flex flex-col gap-10 text-center lg:text-left">
+            <motion.div 
+              className="flex flex-col gap-10 text-center lg:text-left"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+            >
               {/* Eyebrow */}
-              <Badge variant="secondary" className="w-fit mx-auto lg:mx-0 bg-primary/10 text-primary hover:bg-primary/15">
-                <span className="relative flex h-2 w-2 mr-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                AI-Powered Schedule Converter
-              </Badge>
+              <motion.div variants={itemVariants}>
+                <Badge variant="secondary" className="w-fit mx-auto lg:mx-0 bg-primary/10 text-primary hover:bg-primary/15">
+                  <span className="relative flex h-2 w-2 mr-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                  </span>
+                  AI-Powered Schedule Converter
+                </Badge>
+              </motion.div>
               
-              <div className="space-y-8">
+              <motion.div className="space-y-8" variants={itemVariants}>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
                   Transform Your
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Schedule into Art</span>
@@ -90,10 +121,13 @@ export default function Home() {
                 <p className="text-lg xl:text-xl text-muted-foreground max-w-[650px] mx-auto lg:mx-0 leading-relaxed">
                   Upload a photo of your class schedule and let our AI transform it into a beautiful, organized digital timetable in seconds.
                 </p>
-              </div>
+              </motion.div>
               
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                variants={itemVariants}
+              >
                 <Button size="lg" className="gap-2 h-14 px-8 text-lg group relative overflow-hidden shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   <span className="relative flex items-center gap-2">
@@ -105,10 +139,13 @@ export default function Home() {
                   <Calendar className="w-5 h-5" />
                   View Examples
                 </Button>
-              </div>
+              </motion.div>
               
               {/* Features Preview */}
-              <div className="flex flex-col gap-6">
+              <motion.div 
+                className="flex flex-col gap-6"
+                variants={itemVariants}
+              >
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-muted-foreground">
                   <Badge variant="outline" className="bg-background/50 backdrop-blur-sm">
                     <Upload className="mr-2 h-4 w-4 text-primary" />
@@ -152,14 +189,23 @@ export default function Home() {
                     </div>
                   ))}
                 </Card>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Hero Image/Animation */}
-            <div className="relative lg:h-[600px] flex items-center justify-center">
+            <motion.div 
+              className="relative lg:h-[600px] flex items-center justify-center"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '10s' }}></div>
               
-              <Card className="relative w-full max-w-[600px] bg-white/5 border-border/50 p-8 hover:shadow-accent/10 hover:border-accent/20">
+              <motion.div 
+                className="relative w-full max-w-[600px] bg-white/5 border-border/50 p-8 hover:shadow-accent/10 hover:border-accent/20"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
                 {/* Timetable Header */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
@@ -184,7 +230,7 @@ export default function Home() {
                     }
 
                     return (
-                      <div
+                      <motion.div
                         key={i}
                         className={`aspect-square rounded-lg relative group transition-all ${
                           cell.isActive 
@@ -193,39 +239,57 @@ export default function Home() {
                             ? "bg-secondary/15 border border-secondary/20" 
                             : "bg-muted border border-border/30"
                         } ${isHovered ? "ring-2 ring-accent/50 shadow-lg" : ""}`}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.2 }}
                       >
                         {cell.isActive && (
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <motion.div 
+                            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                          >
                             <div className="text-[10px] font-medium text-primary">CS 101</div>
-                          </div>
+                          </motion.div>
                         )}
-                      </div>
+                      </motion.div>
                     );
                   })}
                 </div>
                 
                 {/* Floating Elements */}
-                <Card className="absolute -top-6 -right-6 shadow-lg p-4 flex items-center gap-3 hover:border-primary/30 hover:shadow-primary/10">
-                  <div className="p-2 rounded-full bg-primary/10">
-                    <Upload className="w-4 h-4 text-primary" />
-                  </div>
-                  <span className="text-sm font-medium">Upload Schedule</span>
-                </Card>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <Card className="absolute -top-6 -right-6 shadow-lg p-4 flex items-center gap-3 hover:border-primary/30 hover:shadow-primary/10">
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Upload className="w-4 h-4 text-primary" />
+                    </div>
+                    <span className="text-sm font-medium">Upload Schedule</span>
+                  </Card>
+                </motion.div>
                 
-                <Card className="absolute -bottom-6 -left-6 shadow-lg p-4 flex items-center gap-3 hover:border-accent/30 hover:shadow-accent/10">
-                  <div className="p-2 rounded-full bg-accent/10">
-                    <Sparkles className="w-4 h-4 text-accent" />
-                  </div>
-                  <span className="text-sm font-medium">Beautiful Design</span>
-                </Card>
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1 }}
+                >
+                  <Card className="absolute -bottom-6 -left-6 shadow-lg p-4 flex items-center gap-3 hover:border-accent/30 hover:shadow-accent/10">
+                    <div className="p-2 rounded-full bg-accent/10">
+                      <Sparkles className="w-4 h-4 text-accent" />
+                    </div>
+                    <span className="text-sm font-medium">Beautiful Design</span>
+                  </Card>
+                </motion.div>
                 
                 {/* Feature Badges */}
                 <Badge variant="outline" className="absolute -bottom-3 right-10 shadow-md">
                   <Calendar className="w-3 h-3 text-primary mr-1" />
                   Preview
                 </Badge>
-              </Card>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </main>
