@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar, Upload, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme/toggle"
 import { Skeleton } from "@/components/ui/skeleton"
-import { motion } from "motion/react"
+import { motion } from "framer-motion"
 
 interface GridCell {
   isActive: boolean;
