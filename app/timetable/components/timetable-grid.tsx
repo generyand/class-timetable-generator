@@ -1,112 +1,149 @@
 "use client"
 
-import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { Plus } from "lucide-react"
 
-const DAYS = [
-  { full: "Monday", short: "MON" },
-  { full: "Tuesday", short: "TUE" },
-  { full: "Wednesday", short: "WED" },
-  { full: "Thursday", short: "THU" },
-  { full: "Friday", short: "FRI" },
-  { full: "Saturday", short: "SAT" },
-]
-
-const HOURS = Array.from({ length: 17 }, (_, i) => i + 6) // 6 AM to 10 PM
-
-interface TimeSlot {
+interface Class {
   id: string
-  subject?: string
-  professor?: string
-  room?: string
-  color?: string
+  code: string
+  title: string
+  description: string
+  units: string
+  day: string
+  term: string
+  time: string
+  room: string
+  program: string
+  instructor: string
+  color: string
 }
 
 interface TimetableGridProps {
-  onClassSelect?: () => void
+  classes: Class[]
+  onClassSelect: (classData: Class) => void
 }
 
-export default function TimetableGrid({ onClassSelect }: TimetableGridProps) {
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
+const timeSlots = [
+  "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"
+]
 
-  const handleSlotClick = (slotId: string) => {
-    setSelectedSlot(slotId)
-    onClassSelect?.()
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+// Color mapping for class blocks
+const colorMap: { [key: string]: { bg: string, hover: string } } = {
+  blue: { bg: "bg-blue-50", hover: "hover:bg-blue-100" },
+  green: { bg: "bg-green-50", hover: "hover:bg-green-100" },
+  red: { bg: "bg-red-50", hover: "hover:bg-red-100" },
+  purple: { bg: "bg-purple-50", hover: "hover:bg-purple-100" },
+  yellow: { bg: "bg-yellow-50", hover: "hover:bg-yellow-100" },
+  pink: { bg: "bg-pink-50", hover: "hover:bg-pink-100" },
+  indigo: { bg: "bg-indigo-50", hover: "hover:bg-indigo-100" },
+  teal: { bg: "bg-teal-50", hover: "hover:bg-teal-100" }
+}
+
+export default function TimetableGrid({ classes, onClassSelect }: TimetableGridProps) {
+  // Helper function to get time slot index
+  const getTimeSlotIndex = (time: string) => {
+    // Convert time format from "0900-1000" to hour
+    const hour = parseInt(time.split("-")[0].slice(0, 2))
+    return hour - 8 // Assuming 8:00 is the first slot
   }
 
-  const formatHour = (hour: number) => {
-    return hour < 10 ? `${hour}AM` : hour === 12 ? "12PM" : hour > 12 ? `${hour - 12}PM` : `${hour}AM`
+  // Helper function to get duration in slots
+  const getDurationInSlots = (time: string) => {
+    const [start, end] = time.split("-")
+    const startHour = parseInt(start.slice(0, 2))
+    const endHour = parseInt(end.slice(0, 2))
+    return endHour - startHour
+  }
+
+  // Helper function to get day indices
+  const getDayIndices = (day: string) => {
+    const dayMap: { [key: string]: number } = {
+      "M": 0, "T": 1, "W": 2, "TH": 3, "F": 4
+    }
+    
+    // Handle multiple days (e.g., "MWF")
+    if (day.length > 1) {
+      return day.split("").map(d => dayMap[d]).filter(i => i !== undefined)
+    }
+    
+    return [dayMap[day]].filter(i => i !== undefined)
   }
 
   return (
-    <div className="w-full h-full mt-4 sm:mt-8 md:mt-12">
-      <div className="grid grid-cols-[3rem_repeat(6,minmax(0,1fr))] grid-rows-[auto_repeat(17,minmax(2.5rem,1fr))] bg-background/95">
-        {/* Corner Header */}
-        <div className="sticky top-0 z-20 bg-background border-b border-r">
-          <div className="text-[0.65rem] font-medium text-muted-foreground h-8 flex items-center justify-center">
-            Time
-          </div>
-        </div>
-
-        {/* Day Headers */}
-        {DAYS.map((day) => (
+    <div className="relative">
+      {/* Time slots column */}
+      <div className="absolute left-0 top-0 z-10 w-20 bg-background">
+        <div className="h-16 border-b border-r" /> {/* Header spacer */}
+        {timeSlots.map((time) => (
           <div
-            key={day.full}
-            className="sticky top-0 z-20 bg-background/95 backdrop-blur border-b h-8 flex items-center justify-center"
+            key={time}
+            className="h-24 border-b border-r flex items-center justify-center text-sm text-muted-foreground"
           >
-            <div className="text-[0.7rem] font-semibold text-foreground">
-              {day.short}
-            </div>
+            {time}
+          </div>
+        ))}
+      </div>
+
+      {/* Days header */}
+      <div className="ml-20 flex">
+        {days.map((day) => (
+          <div
+            key={day}
+            className="flex-1 h-16 border-b flex items-center justify-center text-sm font-medium"
+          >
+            {day}
+          </div>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div className="ml-20 relative">
+        {timeSlots.map((_, timeIndex) => (
+          <div key={timeIndex} className="flex">
+            {days.map((_, dayIndex) => (
+              <div
+                key={`${timeIndex}-${dayIndex}`}
+                className="flex-1 h-24 border-b border-r relative"
+              />
+            ))}
           </div>
         ))}
 
-        {/* Time Labels and Slots */}
-        {HOURS.map((hour) => (
-          <>
-            {/* Time Label */}
+        {/* Class blocks */}
+        {classes.map((classData) => {
+          const dayIndices = getDayIndices(classData.day)
+          const timeIndex = getTimeSlotIndex(classData.time)
+          const duration = getDurationInSlots(classData.time)
+          const colors = colorMap[classData.color] || colorMap.blue // Fallback to blue if color not found
+          
+          if (dayIndices.length === 0) return null
+
+          return dayIndices.map(dayIndex => (
             <div
-              key={`time-${hour}`}
-              className="border-r bg-muted/5 flex items-center justify-center"
+              key={`${classData.id}-${dayIndex}`}
+              className={cn(
+                "absolute rounded-lg p-2 cursor-pointer transition-all hover:shadow-lg",
+                "border border-border/50 hover:border-border",
+                colors.bg,
+                colors.hover
+              )}
+              style={{
+                left: `${(dayIndex * 100)}%`,
+                top: `${(timeIndex * 96)}px`, // 96px = 24px (height) * 4
+                width: `${100}%`,
+                height: `${duration * 96}px`, // 96px per hour
+              }}
+              onClick={() => onClassSelect(classData)}
             >
-              <span className="text-[0.65rem] font-medium text-muted-foreground">
-                {formatHour(hour)}
-              </span>
+              <div className="text-xs font-medium">{classData.code}</div>
+              <div className="text-xs text-muted-foreground">{classData.room}</div>
+              <div className="text-xs text-muted-foreground mt-1">{classData.instructor}</div>
             </div>
-
-            {/* Time Slots */}
-            {DAYS.map((day) => (
-              <div
-                key={`${day.full}-${hour}`}
-                className={cn(
-                  "relative border-b border-r transition-all touch-manipulation",
-                  "active:bg-accent/70",
-                  selectedSlot === `${day.full}-${hour}` && "bg-accent/50"
-                )}
-                onClick={() => handleSlotClick(`${day.full}-${hour}`)}
-              >
-                {/* Empty Slot Indicator */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-full" />
-                </div>
-
-                {/* Class Content */}
-                {selectedSlot === `${day.full}-${hour}` && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                  </div>
-                )}
-              </div>
-            ))}
-          </>
-        ))}
-
-        {/* FAB for adding new class */}
-        <div className="fixed right-4 bottom-4 lg:hidden">
-          <button className="h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
-            <Plus className="h-6 w-6" />
-          </button>
-        </div>
+          ))
+        })}
       </div>
     </div>
   )

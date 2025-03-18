@@ -18,6 +18,144 @@ const navigation = [
   { name: "Settings", icon: Settings, current: false },
 ]
 
+// Dummy data for classes
+const dummyClasses = [
+  {
+    id: "1",
+    code: "CS101",
+    title: "Introduction to Programming",
+    description: "Basic programming concepts and problem-solving techniques",
+    units: "3.0",
+    day: "MWF",
+    term: "1st Term",
+    time: "0900-1000",
+    room: "C7",
+    program: "IT",
+    instructor: "Dr. Sarah Johnson",
+    color: "blue"
+  },
+  {
+    id: "2",
+    code: "MATH101",
+    title: "Calculus I",
+    description: "Differential and integral calculus",
+    units: "4.0",
+    day: "TTH",
+    term: "1st Term",
+    time: "1100-1230",
+    room: "M201",
+    program: "Engineering",
+    instructor: "Prof. Michael Chen",
+    color: "green"
+  },
+  {
+    id: "3",
+    code: "PHYS101",
+    title: "Physics I",
+    description: "Classical mechanics and thermodynamics",
+    units: "4.0",
+    day: "MWF",
+    term: "1st Term",
+    time: "1330-1430",
+    room: "P101",
+    program: "Engineering",
+    instructor: "Dr. Emily Rodriguez",
+    color: "red"
+  },
+  {
+    id: "4",
+    code: "ENG101",
+    title: "English Composition",
+    description: "Academic writing and critical thinking",
+    units: "3.0",
+    day: "TTH",
+    term: "1st Term",
+    time: "1500-1630",
+    room: "E101",
+    program: "General",
+    instructor: "Prof. David Smith",
+    color: "purple"
+  },
+  {
+    id: "5",
+    code: "CS102",
+    title: "Data Structures",
+    description: "Advanced programming concepts and data structures",
+    units: "3.0",
+    day: "MWF",
+    term: "2nd Term",
+    time: "0900-1000",
+    room: "C8",
+    program: "IT",
+    instructor: "Dr. James Wilson",
+    color: "blue"
+  },
+  {
+    id: "6",
+    code: "MATH102",
+    title: "Calculus II",
+    description: "Advanced calculus and series",
+    units: "4.0",
+    day: "TTH",
+    term: "2nd Term",
+    time: "1100-1230",
+    room: "M202",
+    program: "Engineering",
+    instructor: "Prof. Michael Chen",
+    color: "green"
+  },
+  {
+    id: "7",
+    code: "PHYS102",
+    title: "Physics II",
+    description: "Electromagnetism and optics",
+    units: "4.0",
+    day: "MWF",
+    term: "2nd Term",
+    time: "1330-1430",
+    room: "P102",
+    program: "Engineering",
+    instructor: "Dr. Emily Rodriguez",
+    color: "red"
+  },
+  {
+    id: "8",
+    code: "CS201",
+    title: "Database Systems",
+    description: "Database design and SQL",
+    units: "3.0",
+    day: "TTH",
+    term: "2nd Term",
+    time: "1500-1630",
+    room: "C9",
+    program: "IT",
+    instructor: "Dr. Sarah Johnson",
+    color: "blue"
+  }
+]
+
+// Dummy data for terms
+const terms = [
+  {
+    id: "1",
+    year: "2024-25",
+    term: "First Semester",
+    status: "Active",
+    startDate: "2024-08-26",
+    endDate: "2024-12-20",
+    classes: dummyClasses.filter(c => c.term === "1st Term")
+  },
+  {
+    id: "2",
+    year: "2024-25",
+    term: "Second Semester",
+    status: "Upcoming",
+    startDate: "2025-01-13",
+    endDate: "2025-05-09",
+    classes: dummyClasses.filter(c => c.term === "2nd Term")
+  }
+]
+
 const selectedClass = {
   code: "1871",
   title: "GE 7",
@@ -40,12 +178,16 @@ const currentTerm = {
 export default function TimetablePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [selectedClassOpen, setSelectedClassOpen] = useState(false)
-  const [currentClass, setCurrentClass] = useState<typeof selectedClass | null>(null)
+  const [currentClass, setCurrentClass] = useState<typeof dummyClasses[0] | null>(null)
+  const [currentTerm, setCurrentTerm] = useState(terms[0]) // Start with first term
 
-  const handleClassSelect = () => {
-    setCurrentClass(selectedClass) // In a real app, this would be the actual selected class
+  const handleClassSelect = (classData: typeof dummyClasses[0]) => {
+    setCurrentClass(classData)
     setSelectedClassOpen(true)
   }
+
+  // Get classes for current term
+  const currentClasses = dummyClasses.filter(c => c.term === currentTerm.classes[0].term)
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -70,9 +212,9 @@ export default function TimetablePage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Current Term</span>
-                <Badge variant="secondary">Active</Badge>
+                <Badge variant="secondary">{currentTerm.status}</Badge>
               </div>
-              <div className="text-sm font-semibold">Second Semester 2024-25</div>
+              <div className="text-sm font-semibold">{currentTerm.term} {currentTerm.year}</div>
             </div>
 
             <nav className="flex flex-1 flex-col">
@@ -113,9 +255,9 @@ export default function TimetablePage() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium">Current Term</span>
-              <Badge variant="secondary">Active</Badge>
+              <Badge variant="secondary">{currentTerm.status}</Badge>
             </div>
-            <div className="text-sm font-semibold">Second Semester 2024-25</div>
+            <div className="text-sm font-semibold">{currentTerm.term} {currentTerm.year}</div>
           </div>
 
           <nav className="flex flex-1 flex-col">
@@ -180,7 +322,10 @@ export default function TimetablePage() {
             <div className="bg-background">
               <div className="overflow-x-auto">
                 <div className="min-w-full">
-                  <TimetableGrid onClassSelect={handleClassSelect} />
+                  <TimetableGrid 
+                    classes={currentClasses}
+                    onClassSelect={handleClassSelect} 
+                  />
                 </div>
               </div>
             </div>

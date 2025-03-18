@@ -202,7 +202,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl opacity-70 animate-pulse" style={{ animationDuration: '10s' }}></div>
               
               <motion.div 
-                className="relative w-full max-w-[600px] bg-white/5 border-border/50 p-8 hover:shadow-accent/10 hover:border-accent/20"
+                className="relative w-full max-w-[600px] bg-white/5 border-border/50 p-8 hover:shadow-accent/10 hover:border-accent/20 outline rounded-lg"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
@@ -273,7 +273,7 @@ export default function Home() {
                 <motion.div
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 }}
+                  transition={{ delay: 1 }} 
                 >
                   <Card className="absolute -bottom-6 -left-6 shadow-lg p-4 flex items-center gap-3 hover:border-accent/30 hover:shadow-accent/10">
                     <div className="p-2 rounded-full bg-accent/10">
