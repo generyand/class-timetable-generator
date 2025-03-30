@@ -1,7 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import React from "react"
 import { cn } from "@/lib/utils"
 
 interface Class {
@@ -24,125 +23,219 @@ interface TimetableGridProps {
   onClassSelect: (classData: Class) => void
 }
 
-const timeSlots = [
-  "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"
+// Time data
+const START_HOUR = 7 // 7AM
+const END_HOUR = 22  // 10PM
+const MINUTES_PER_INTERVAL = 10
+const INTERVALS_PER_HOUR = 60 / MINUTES_PER_INTERVAL
+const TOTAL_INTERVALS = (END_HOUR - START_HOUR) * INTERVALS_PER_HOUR
+
+// For time labels (only show hour marks)
+const hourLabels = Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
+  const hour = START_HOUR + i
+  return hour < 12 ? `${hour}:00` : hour === 12 ? `12:00` : `${hour - 12}:00`
+})
+
+// Day data
+const days = [
+  "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ]
 
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-
-// Color mapping for class blocks
-const colorMap: { [key: string]: { bg: string, hover: string } } = {
-  blue: { bg: "bg-blue-50", hover: "hover:bg-blue-100" },
-  green: { bg: "bg-green-50", hover: "hover:bg-green-100" },
-  red: { bg: "bg-red-50", hover: "hover:bg-red-100" },
-  purple: { bg: "bg-purple-50", hover: "hover:bg-purple-100" },
-  yellow: { bg: "bg-yellow-50", hover: "hover:bg-yellow-100" },
-  pink: { bg: "bg-pink-50", hover: "hover:bg-pink-100" },
-  indigo: { bg: "bg-indigo-50", hover: "hover:bg-indigo-100" },
-  teal: { bg: "bg-teal-50", hover: "hover:bg-teal-100" }
+// Color mapping with darker shades to match the image
+const colorMap: { [key: string]: string } = {
+  blue: "bg-blue-900/30 border-blue-600",
+  green: "bg-green-900/30 border-green-600",
+  red: "bg-red-900/30 border-red-600",
+  purple: "bg-purple-900/30 border-purple-600",
+  yellow: "bg-yellow-900/30 border-yellow-600",
+  pink: "bg-pink-900/30 border-pink-600",
+  indigo: "bg-indigo-900/30 border-indigo-600",
+  teal: "bg-teal-900/30 border-teal-600"
 }
 
 export default function TimetableGrid({ classes, onClassSelect }: TimetableGridProps) {
-  // Helper function to get time slot index
-  const getTimeSlotIndex = (time: string) => {
-    // Convert time format from "0900-1000" to hour
-    const hour = parseInt(time.split("-")[0].slice(0, 2))
-    return hour - 8 // Assuming 8:00 is the first slot
+  // Helper to convert time to grid row
+  const timeToRow = (time: string): { start: number, end: number } => {
+    try {
+      const [startStr, endStr] = time.split("-")
+      
+      // Parse hours and minutes
+      const startHour = parseInt(startStr.slice(0, 2))
+      const startMinute = parseInt(startStr.slice(2, 4)) || 0
+      
+      const endHour = parseInt(endStr.slice(0, 2))
+      const endMinute = parseInt(endStr.slice(2, 4)) || 0
+      
+      // Calculate grid rows (each row is 10 minutes)
+      const startRow = ((startHour - START_HOUR) * INTERVALS_PER_HOUR) + Math.floor(startMinute / MINUTES_PER_INTERVAL) + 1 // +1 for header row
+      const endRow = ((endHour - START_HOUR) * INTERVALS_PER_HOUR) + Math.ceil(endMinute / MINUTES_PER_INTERVAL) + 1 // +1 for header row
+      
+      return { start: startRow, end: endRow }
+    } catch (error) {
+      console.error("Error parsing time:", time, error)
+      return { start: 1, end: 2 } // Default to first interval
+    }
   }
-
-  // Helper function to get duration in slots
-  const getDurationInSlots = (time: string) => {
-    const [start, end] = time.split("-")
-    const startHour = parseInt(start.slice(0, 2))
-    const endHour = parseInt(end.slice(0, 2))
-    return endHour - startHour
-  }
-
-  // Helper function to get day indices
-  const getDayIndices = (day: string) => {
+  
+  // Helper to convert day to grid column
+  const dayToColumn = (day: string): number[] => {
+    // Map days to column indices (0-based)
     const dayMap: { [key: string]: number } = {
-      "M": 0, "T": 1, "W": 2, "TH": 3, "F": 4
+      "M": 0, "T": 1, "W": 2, "TH": 3, "F": 4, "S": 5, "SA": 5, "SAT": 5
     }
     
-    // Handle multiple days (e.g., "MWF")
+    if (!day) return []
+    
+    // For MWF format
+    if (day === "MWF") {
+      return [0, 2, 4] // Monday, Wednesday, Friday
+    }
+    
+    // For TTH format
+    if (day === "TTH") {
+      return [1, 3] // Tuesday, Thursday
+    }
+    
+    // Handle multiple days with TH special case
     if (day.length > 1) {
+      if (day.includes("TH")) {
+        const result: number[] = [];
+        let i = 0;
+        while (i < day.length) {
+          if (i + 1 < day.length && day.substring(i, i + 2) === "TH") {
+            result.push(dayMap["TH"]);
+            i += 2;
+          } else {
+            const d = day[i];
+            if (dayMap[d] !== undefined) {
+              result.push(dayMap[d]);
+            }
+            i++;
+          }
+        }
+        return result;
+      }
+      
+      // Handle other multi-day formats
       return day.split("").map(d => dayMap[d]).filter(i => i !== undefined)
     }
     
+    // Single day
     return [dayMap[day]].filter(i => i !== undefined)
   }
 
   return (
-    <div className="relative">
-      {/* Time slots column */}
-      <div className="absolute left-0 top-0 z-10 w-20 bg-background">
-        <div className="h-16 border-b border-r" /> {/* Header spacer */}
-        {timeSlots.map((time) => (
-          <div
-            key={time}
-            className="h-24 border-b border-r flex items-center justify-center text-sm text-muted-foreground"
-          >
-            {time}
-          </div>
-        ))}
-      </div>
-
-      {/* Days header */}
-      <div className="ml-20 flex">
+    <div className="w-full overflow-auto">
+      <h2 className="text-xl font-semibold mb-4 text-center">Schedule #</h2>
+      
+      {/* Main grid container */}
+      <div 
+        className="grid bg-[#051220] relative"
+        style={{
+          gridTemplateColumns: "5rem repeat(6, 1fr)",
+          gridTemplateRows: `auto repeat(${TOTAL_INTERVALS}, minmax(2px, 1fr))`,
+          minHeight: "600px",
+        }}
+      >
+        {/* Empty corner cell */}
+        <div className="border-b border-r border-slate-800"></div>
+        
+        {/* Day headers */}
         {days.map((day) => (
-          <div
+          <div 
             key={day}
-            className="flex-1 h-16 border-b flex items-center justify-center text-sm font-medium"
+            className="py-2 text-sm font-medium flex items-center justify-center border-b border-slate-800"
           >
             {day}
           </div>
         ))}
-      </div>
-
-      {/* Grid */}
-      <div className="ml-20 relative">
-        {timeSlots.map((_, timeIndex) => (
-          <div key={timeIndex} className="flex">
-            {days.map((_, dayIndex) => (
-              <div
-                key={`${timeIndex}-${dayIndex}`}
-                className="flex-1 h-24 border-b border-r relative"
-              />
-            ))}
+        
+        {/* Time labels - only show hour marks */}
+        {hourLabels.map((label, i) => (
+          <div 
+            key={label}
+            className="text-xs text-slate-500 pr-2 text-right border-r border-slate-800/50 flex items-center justify-end"
+            style={{ 
+              gridRow: `${(i * INTERVALS_PER_HOUR) + 2} / span ${INTERVALS_PER_HOUR}`,
+              gridColumn: "1",
+            }}
+          >
+            {label}
           </div>
         ))}
-
+        
+        {/* Hour marker lines */}
+        {hourLabels.map((_, i) => (
+          <React.Fragment key={`hour-${i}`}>
+            {days.map((__, j) => (
+              <div 
+                key={`hour-${i}-day-${j}`}
+                className={cn(
+                  "border-b border-r border-slate-800/30",
+                  i === 0 ? "border-t" : ""
+                )}
+                style={{ 
+                  gridRow: `${(i * INTERVALS_PER_HOUR) + 2}`,
+                  gridColumn: `${j + 2}`,
+                }}
+              />
+            ))}
+          </React.Fragment>
+        ))}
+        
+        {/* Background grid cells for 10-min intervals (lighter borders) */}
+        {Array.from({ length: TOTAL_INTERVALS - 1 }).map((_, i) => (
+          <React.Fragment key={`interval-${i}`}>
+            {days.map((__, j) => (
+              <div 
+                key={`interval-${i}-day-${j}`}
+                className={cn(
+                  "border-b border-r border-slate-800/10",
+                  (i + 1) % INTERVALS_PER_HOUR === 0 ? "border-b-0" : ""
+                )}
+                style={{ 
+                  gridRow: `${i + 3}`, // Start from 3 to account for header and first hour mark
+                  gridColumn: `${j + 2}`,
+                }}
+              />
+            ))}
+          </React.Fragment>
+        ))}
+        
         {/* Class blocks */}
-        {classes.map((classData) => {
-          const dayIndices = getDayIndices(classData.day)
-          const timeIndex = getTimeSlotIndex(classData.time)
-          const duration = getDurationInSlots(classData.time)
-          const colors = colorMap[classData.color] || colorMap.blue // Fallback to blue if color not found
+        {classes.map((classData, index) => {
+          const dayColumns = dayToColumn(classData.day)
+          const { start: rowStart, end: rowEnd } = timeToRow(classData.time)
+          const colorClass = colorMap[classData.color] || colorMap.blue
           
-          if (dayIndices.length === 0) return null
-
-          return dayIndices.map(dayIndex => (
-            <div
-              key={`${classData.id}-${dayIndex}`}
-              className={cn(
-                "absolute rounded-lg p-2 cursor-pointer transition-all hover:shadow-lg",
-                "border border-border/50 hover:border-border",
-                colors.bg,
-                colors.hover
-              )}
-              style={{
-                left: `${(dayIndex * 100)}%`,
-                top: `${(timeIndex * 96)}px`, // 96px = 24px (height) * 4
-                width: `${100}%`,
-                height: `${duration * 96}px`, // 96px per hour
-              }}
-              onClick={() => onClassSelect(classData)}
-            >
-              <div className="text-xs font-medium">{classData.code}</div>
-              <div className="text-xs text-muted-foreground">{classData.room}</div>
-              <div className="text-xs text-muted-foreground mt-1">{classData.instructor}</div>
-            </div>
-          ))
+          // Skip rendering if we can't properly position this class
+          if (dayColumns.length === 0) return null
+          
+          return dayColumns.map((colIndex, dayIndexPos) => {
+            // Skip if not valid position
+            if (colIndex < 0 || colIndex >= days.length) return null
+            
+            return (
+              <div
+                key={`class-${index}-${classData.id}-${colIndex}-${rowStart}-${dayIndexPos}`}
+                className={cn(
+                  "rounded-md p-2 cursor-pointer border flex flex-col",
+                  colorClass
+                )}
+                style={{
+                  gridColumn: colIndex + 2, // +2 for time column
+                  gridRow: `${rowStart} / ${rowEnd}`,
+                  margin: "1px",
+                  zIndex: 10
+                }}
+                onClick={() => onClassSelect(classData)}
+              >
+                <div className="text-xs font-medium">{classData.code}</div>
+                <div className="text-xs text-slate-300">{classData.room}</div>
+                <div className="text-xs text-slate-300 mt-auto">{classData.instructor}</div>
+              </div>
+            )
+          }).filter(Boolean)
         })}
       </div>
     </div>
