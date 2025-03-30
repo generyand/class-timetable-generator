@@ -24,9 +24,10 @@ interface TimetableGridProps {
 }
 
 // Time data
-const START_HOUR = 8 // 8AM - based on the image
+const START_HOUR = 7 // 7AM (now including an extra hour before 8AM)
 const END_HOUR = 22  // 10PM
 const HOURS_TO_DISPLAY = END_HOUR - START_HOUR
+const VISIBLE_START_HOUR = 8 // The first hour to show a label for
 
 // Day data
 const days = [
@@ -40,18 +41,8 @@ const timeLabels = Array.from({ length: HOURS_TO_DISPLAY + 1 }, (_, i) => {
   const amPm = hour < 12 ? 'AM' : 'PM'
   return {
     hour,
-    label: `${formattedHour}:00 ${amPm}`
-  }
-})
-
-// Generate half-hour time labels (8:30 AM, 9:30 AM, etc.)
-const halfHourLabels = Array.from({ length: HOURS_TO_DISPLAY }, (_, i) => {
-  const hour = START_HOUR + i
-  const formattedHour = hour < 12 ? hour : hour === 12 ? 12 : hour - 12
-  const amPm = hour < 12 ? 'AM' : 'PM'
-  return {
-    hour,
-    label: `${formattedHour}:30 ${amPm}`
+    label: `${formattedHour}:00 ${amPm}`,
+    visible: hour >= VISIBLE_START_HOUR // Only show labels for 8AM and later
   }
 })
 
@@ -143,12 +134,12 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
   }
 
   return (
-    <div className="w-full overflow-auto">
+    <div className="w-full overflow-auto my-4">
       <h2 className="text-xl font-semibold mb-4 text-center">Schedule #</h2>
       
       {/* Main grid container */}
       <div 
-        className="grid bg-[#051220] relative border border-slate-800 rounded-md overflow-hidden"
+        className="grid bg-[#051220] relative border border-slate-800 rounded-md overflow-hidden pb-6"
         style={{
           gridTemplateColumns: "5rem repeat(6, 1fr)",
           gridTemplateRows: `40px repeat(${HOURS_TO_DISPLAY}, 60px)`,
@@ -171,44 +162,32 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
 
         {/* Time column */}
         <div 
-          className="border-r border-slate-700"
+          className="border-r border-slate-700 relative"
           style={{ 
             gridRow: `2 / span ${HOURS_TO_DISPLAY}`,
             gridColumn: "1",
           }}
-        />
-        
-        {/* Time labels */}
-        {timeLabels.map((timeInfo, i) => (
-          <div 
-            key={`time-${timeInfo.hour}`}
-            className="text-xs text-slate-400 pr-3 flex items-center justify-end h-full"
-            style={{ 
-              gridRow: i + 2,
-              gridColumn: "1",
-            }}
-          >
-            {timeInfo.label}
-          </div>
-        ))}
-        
-        {/* Half-hour time labels */}
-        {halfHourLabels.map((timeInfo, i) => (
-          <div 
-            key={`half-time-${timeInfo.hour}`}
-            className="text-xs text-slate-500/60 pr-3 flex items-center justify-end"
-            style={{ 
-              position: 'absolute',
-              right: 0,
-              top: `calc(${(i + 2) * 60}px + 30px)`, // Position halfway between hour marks
-              height: '20px',
-              width: '5rem',
-              zIndex: 5
-            }}
-          >
-            {timeInfo.label}
-          </div>
-        ))}
+        >
+          {/* Time labels - absolutely positioned for precise alignment */}
+          {timeLabels.map((timeInfo, i) => (
+            timeInfo.visible && (
+              <div 
+                key={`time-${timeInfo.hour}`}
+                className="text-xs text-slate-400 pr-3 absolute flex items-center justify-end"
+                style={{ 
+                  right: 0,
+                  top: `${i * 60}px`,
+                  transform: 'translateY(-50%)',
+                  height: '20px',
+                  width: '100%',
+                  zIndex: 5
+                }}
+              >
+                {timeInfo.label}
+              </div>
+            )
+          ))}
+        </div>
         
         {/* Hour grid cells with half-hour dashed lines */}
         {timeLabels.map((timeInfo, i) => (
