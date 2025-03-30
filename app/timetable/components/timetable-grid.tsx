@@ -24,46 +24,43 @@ interface TimetableGridProps {
 }
 
 // Time data
-const START_HOUR = 7 // 7AM
+const START_HOUR = 8 // 8AM - based on the image
 const END_HOUR = 22  // 10PM
-const MINUTES_PER_INTERVAL = 10
-const INTERVALS_PER_HOUR = 60 / MINUTES_PER_INTERVAL
-const TOTAL_INTERVALS = (END_HOUR - START_HOUR) * INTERVALS_PER_HOUR
-
-// For time labels (only show hour marks)
-const hourLabels = Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
-  const hour = START_HOUR + i
-  const formattedHour = hour < 12 ? `${hour}:00` : hour === 12 ? `12:00` : `${hour - 12}:00`
-  // Include AM/PM designation to make display clearer
-  const amPm = hour < 12 ? 'AM' : 'PM'
-  return { 
-    hour,
-    label: formattedHour,
-    displayLabel: `${formattedHour}${hour === 12 || hour === 0 ? ' ' : ' '}${amPm}`
-  }
-})
+const HOURS_TO_DISPLAY = END_HOUR - START_HOUR
 
 // Day data
 const days = [
   "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ]
 
+// Generate time labels (8AM to 10PM)
+const timeLabels = Array.from({ length: HOURS_TO_DISPLAY + 1 }, (_, i) => {
+  const hour = START_HOUR + i
+  const formattedHour = hour < 12 ? hour : hour === 12 ? 12 : hour - 12
+  const amPm = hour < 12 ? 'AM' : 'PM'
+  return {
+    hour,
+    label: `${formattedHour}:00 ${amPm}`
+  }
+})
+
 // Color mapping with darker shades to match the image
 const colorMap: { [key: string]: string } = {
-  blue: "bg-blue-900/30 border-blue-600",
-  green: "bg-green-900/30 border-green-600",
-  red: "bg-red-900/30 border-red-600",
-  purple: "bg-purple-900/30 border-purple-600",
-  yellow: "bg-yellow-900/30 border-yellow-600",
-  pink: "bg-pink-900/30 border-pink-600",
-  indigo: "bg-indigo-900/30 border-indigo-600",
-  teal: "bg-teal-900/30 border-teal-600"
+  blue: "bg-blue-800 border-blue-500 text-white",
+  green: "bg-green-950/80 border-green-600 text-green-100",
+  red: "bg-red-950/80 border-red-600 text-red-100",
+  purple: "bg-purple-950/80 border-purple-600 text-purple-100",
+  yellow: "bg-yellow-950/80 border-yellow-600 text-yellow-100",
+  pink: "bg-pink-950/80 border-pink-600 text-pink-100",
+  indigo: "bg-indigo-950/80 border-indigo-600 text-indigo-100",
+  teal: "bg-teal-950/80 border-teal-600 text-teal-100"
 }
 
 export default function TimetableGrid({ classes, onClassSelect }: TimetableGridProps) {
-  // Helper to convert time to grid row
+  // Helper to convert time to grid position
   const timeToRow = (time: string): { start: number, end: number } => {
     try {
+      // Parse time format like "0900-1000"
       const [startStr, endStr] = time.split("-")
       
       // Parse hours and minutes
@@ -73,14 +70,17 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
       const endHour = parseInt(endStr.slice(0, 2))
       const endMinute = parseInt(endStr.slice(2, 4)) || 0
       
-      // Calculate grid rows (each row is 10 minutes)
-      const startRow = ((startHour - START_HOUR) * INTERVALS_PER_HOUR) + Math.floor(startMinute / MINUTES_PER_INTERVAL) + 1 // +1 for header row
-      const endRow = ((endHour - START_HOUR) * INTERVALS_PER_HOUR) + Math.ceil(endMinute / MINUTES_PER_INTERVAL) + 1 // +1 for header row
+      // Calculate grid positions (hourly rows)
+      const startPosition = (startHour - START_HOUR) + (startMinute / 60)
+      const endPosition = (endHour - START_HOUR) + (endMinute / 60)
       
-      return { start: startRow, end: endRow }
+      return { 
+        start: startPosition,
+        end: endPosition
+      }
     } catch (error) {
       console.error("Error parsing time:", time, error)
-      return { start: 1, end: 2 } // Default to first interval
+      return { start: 0, end: 1 } // Default fallback
     }
   }
   
@@ -137,109 +137,66 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
       
       {/* Main grid container */}
       <div 
-        className="grid bg-[#051220] relative border-r border-slate-800"
+        className="grid bg-[#051220] relative border border-slate-800 rounded-md overflow-hidden"
         style={{
           gridTemplateColumns: "5rem repeat(6, 1fr)",
-          gridTemplateRows: `auto repeat(${TOTAL_INTERVALS}, minmax(2px, 1fr))`,
-          minHeight: "600px",
+          gridAutoRows: "60px",
+          gridTemplateRows: `40px repeat(${HOURS_TO_DISPLAY}, 60px)`,
+          minHeight: "800px",
         }}
       >
         {/* Empty corner cell */}
-        <div className="border-b border-r border-slate-800"></div>
+        <div className="border-b border-r border-slate-700" style={{ gridRow: "1" }}></div>
         
         {/* Day headers */}
         {days.map((day, index) => (
           <div 
             key={day}
-            className={cn(
-              "py-2 text-sm font-medium flex items-center justify-center border-b border-slate-800",
-              "border-r border-slate-800"
-            )}
+            className="py-2 text-sm font-medium flex items-center justify-center border-b border-r border-slate-700"
+            style={{ gridRow: "1", gridColumn: `${index + 2}` }}
           >
             {day}
           </div>
         ))}
+
+        {/* Time column */}
+        <div 
+          className="border-r border-slate-700"
+          style={{ 
+            gridRow: `2 / span ${HOURS_TO_DISPLAY}`,
+            gridColumn: "1",
+          }}
+        />
         
-        {/* Time labels - only show hour marks (skip 7AM as first line) */}
-        {hourLabels.map((timeInfo, i) => {
-          // Skip the 7AM label (first hour)
-          if (timeInfo.hour === 7) return null;
-          
-          return (
-            <div 
-              key={`hour-${timeInfo.hour}`}
-              className="text-xs text-slate-500 pr-2 text-right border-r border-slate-800 absolute"
-              style={{ 
-                // Position at the exact hour line
-                top: `calc(${(i * INTERVALS_PER_HOUR) + 2 - 0.5} * var(--grid-row-height, 1fr))`,
-                left: '0',
-                width: '5rem',
-                height: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                // Use a negative z-index to ensure it appears behind grid lines
-                zIndex: '1'
-              }}
-            >
-              {timeInfo.displayLabel}
-            </div>
-          );
-        })}
+        {/* Time labels */}
+        {timeLabels.map((timeInfo, i) => (
+          <div 
+            key={`time-${timeInfo.hour}`}
+            className="text-xs text-slate-400 pr-3 flex items-center justify-end h-full"
+            style={{ 
+              gridRow: i + 2,
+              gridColumn: "1",
+            }}
+          >
+            {timeInfo.label}
+          </div>
+        ))}
         
-        {/* Hour marker lines (solid borders) */}
-        {hourLabels.map((timeInfo, i) => (
-          <React.Fragment key={`hour-line-${timeInfo.hour}`}>
-            {days.map((__, j) => (
+        {/* Hour grid lines */}
+        {timeLabels.map((timeInfo, i) => (
+          <React.Fragment key={`grid-line-${timeInfo.hour}`}>
+            {days.map((day, j) => (
               <div 
-                key={`hour-${timeInfo.hour}-day-${j}`}
-                className={cn(
-                  "border-b border-slate-800/30",
-                  i === 0 ? "border-t" : "",
-                  "border-r border-slate-800"
-                )}
+                key={`grid-${timeInfo.hour}-${day}`}
+                className="border-b border-r border-slate-700/50"
                 style={{ 
-                  gridRow: `${(i * INTERVALS_PER_HOUR) + 2}`,
-                  gridColumn: `${j + 2}`,
+                  gridRow: i + 2,
+                  gridColumn: j + 2,
                 }}
               />
             ))}
           </React.Fragment>
         ))}
-        
-        {/* Time column grid cells for proper column structure */}
-        {hourLabels.map((timeInfo, i) => (
-          <div 
-            key={`time-cell-${timeInfo.hour}`}
-            className="border-r border-slate-800"
-            style={{ 
-              gridRow: `${(i * INTERVALS_PER_HOUR) + 2} / span ${INTERVALS_PER_HOUR}`,
-              gridColumn: "1",
-            }}
-          />
-        ))}
-        
-        {/* Half-hour marker lines (dashed borders) */}
-        {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
-          const hour = START_HOUR + i
-          return (
-            <React.Fragment key={`half-hour-line-${hour}`}>
-              {days.map((__, j) => (
-                <div 
-                  key={`half-hour-${hour}-day-${j}`}
-                  className={cn(
-                    "border-b border-dashed border-slate-800/30",
-                    "border-r border-slate-800"
-                  )}
-                  style={{ 
-                    gridRow: `${(i * INTERVALS_PER_HOUR) + 2 + (INTERVALS_PER_HOUR / 2)}`, // Half-way through each hour
-                    gridColumn: `${j + 2}`,
-                  }}
-                />
-              ))}
-            </React.Fragment>
-          )
-        })}
         
         {/* Class blocks */}
         {classes.map((classData, index) => {
@@ -247,31 +204,30 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
           const { start: rowStart, end: rowEnd } = timeToRow(classData.time)
           const colorClass = colorMap[classData.color] || colorMap.blue
           
-          // Skip rendering if we can't properly position this class
+          // Skip if we can't position this class
           if (dayColumns.length === 0) return null
           
-          return dayColumns.map((colIndex, dayIndexPos) => {
-            // Skip if not valid position
+          return dayColumns.map((colIndex, dayIndex) => {
             if (colIndex < 0 || colIndex >= days.length) return null
             
             return (
               <div
-                key={`class-${index}-${classData.id}-${colIndex}-${rowStart}-${dayIndexPos}`}
+                key={`class-${index}-${dayIndex}`}
                 className={cn(
-                  "rounded-md p-2 cursor-pointer border flex flex-col",
+                  "border cursor-pointer flex flex-col h-full p-2 justify-between",
                   colorClass
                 )}
                 style={{
-                  gridColumn: colIndex + 2, // +2 for time column
-                  gridRow: `${rowStart} / ${rowEnd}`,
-                  margin: "1px",
+                  gridColumn: colIndex + 2,
+                  gridRowStart: Math.floor(rowStart) + 2,
+                  gridRowEnd: Math.ceil(rowEnd) + 2,
                   zIndex: 10
                 }}
                 onClick={() => onClassSelect(classData)}
               >
-                <div className="text-xs font-medium">{classData.code}</div>
-                <div className="text-xs text-slate-300">{classData.room}</div>
-                <div className="text-xs text-slate-300 mt-auto">{classData.instructor}</div>
+                <div className="text-xs font-bold">{classData.code}</div>
+                <div className="text-xs">{classData.room}</div>
+                <div className="text-xs mt-auto">{classData.instructor}</div>
               </div>
             )
           }).filter(Boolean)
