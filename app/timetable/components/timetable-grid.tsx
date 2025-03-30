@@ -33,7 +33,14 @@ const TOTAL_INTERVALS = (END_HOUR - START_HOUR) * INTERVALS_PER_HOUR
 // For time labels (only show hour marks)
 const hourLabels = Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => {
   const hour = START_HOUR + i
-  return hour < 12 ? `${hour}:00` : hour === 12 ? `12:00` : `${hour - 12}:00`
+  const formattedHour = hour < 12 ? `${hour}:00` : hour === 12 ? `12:00` : `${hour - 12}:00`
+  // Include AM/PM designation to make display clearer
+  const amPm = hour < 12 ? 'AM' : 'PM'
+  return { 
+    hour,
+    label: formattedHour,
+    displayLabel: `${formattedHour}${hour === 12 || hour === 0 ? ' ' : ' '}${amPm}`
+  }
 })
 
 // Day data
@@ -130,7 +137,7 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
       
       {/* Main grid container */}
       <div 
-        className="grid bg-[#051220] relative"
+        className="grid bg-[#051220] relative border-r border-slate-800"
         style={{
           gridTemplateColumns: "5rem repeat(6, 1fr)",
           gridTemplateRows: `auto repeat(${TOTAL_INTERVALS}, minmax(2px, 1fr))`,
@@ -141,38 +148,55 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
         <div className="border-b border-r border-slate-800"></div>
         
         {/* Day headers */}
-        {days.map((day) => (
+        {days.map((day, index) => (
           <div 
             key={day}
-            className="py-2 text-sm font-medium flex items-center justify-center border-b border-slate-800"
+            className={cn(
+              "py-2 text-sm font-medium flex items-center justify-center border-b border-slate-800",
+              "border-r border-slate-800"
+            )}
           >
             {day}
           </div>
         ))}
         
-        {/* Time labels - only show hour marks */}
-        {hourLabels.map((label, i) => (
-          <div 
-            key={label}
-            className="text-xs text-slate-500 pr-2 text-right border-r border-slate-800/50 flex items-center justify-end"
-            style={{ 
-              gridRow: `${(i * INTERVALS_PER_HOUR) + 2} / span ${INTERVALS_PER_HOUR}`,
-              gridColumn: "1",
-            }}
-          >
-            {label}
-          </div>
-        ))}
+        {/* Time labels - only show hour marks (skip 7AM as first line) */}
+        {hourLabels.map((timeInfo, i) => {
+          // Skip the 7AM label (first hour)
+          if (timeInfo.hour === 7) return null;
+          
+          return (
+            <div 
+              key={`hour-${timeInfo.hour}`}
+              className="text-xs text-slate-500 pr-2 text-right border-r border-slate-800 absolute"
+              style={{ 
+                // Position at the exact hour line
+                top: `calc(${(i * INTERVALS_PER_HOUR) + 2 - 0.5} * var(--grid-row-height, 1fr))`,
+                left: '0',
+                width: '5rem',
+                height: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                // Use a negative z-index to ensure it appears behind grid lines
+                zIndex: '1'
+              }}
+            >
+              {timeInfo.displayLabel}
+            </div>
+          );
+        })}
         
-        {/* Hour marker lines */}
-        {hourLabels.map((_, i) => (
-          <React.Fragment key={`hour-${i}`}>
+        {/* Hour marker lines (solid borders) */}
+        {hourLabels.map((timeInfo, i) => (
+          <React.Fragment key={`hour-line-${timeInfo.hour}`}>
             {days.map((__, j) => (
               <div 
-                key={`hour-${i}-day-${j}`}
+                key={`hour-${timeInfo.hour}-day-${j}`}
                 className={cn(
-                  "border-b border-r border-slate-800/30",
-                  i === 0 ? "border-t" : ""
+                  "border-b border-slate-800/30",
+                  i === 0 ? "border-t" : "",
+                  "border-r border-slate-800"
                 )}
                 style={{ 
                   gridRow: `${(i * INTERVALS_PER_HOUR) + 2}`,
@@ -183,24 +207,39 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
           </React.Fragment>
         ))}
         
-        {/* Background grid cells for 10-min intervals (lighter borders) */}
-        {Array.from({ length: TOTAL_INTERVALS - 1 }).map((_, i) => (
-          <React.Fragment key={`interval-${i}`}>
-            {days.map((__, j) => (
-              <div 
-                key={`interval-${i}-day-${j}`}
-                className={cn(
-                  "border-b border-r border-slate-800/10",
-                  (i + 1) % INTERVALS_PER_HOUR === 0 ? "border-b-0" : ""
-                )}
-                style={{ 
-                  gridRow: `${i + 3}`, // Start from 3 to account for header and first hour mark
-                  gridColumn: `${j + 2}`,
-                }}
-              />
-            ))}
-          </React.Fragment>
+        {/* Time column grid cells for proper column structure */}
+        {hourLabels.map((timeInfo, i) => (
+          <div 
+            key={`time-cell-${timeInfo.hour}`}
+            className="border-r border-slate-800"
+            style={{ 
+              gridRow: `${(i * INTERVALS_PER_HOUR) + 2} / span ${INTERVALS_PER_HOUR}`,
+              gridColumn: "1",
+            }}
+          />
         ))}
+        
+        {/* Half-hour marker lines (dashed borders) */}
+        {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
+          const hour = START_HOUR + i
+          return (
+            <React.Fragment key={`half-hour-line-${hour}`}>
+              {days.map((__, j) => (
+                <div 
+                  key={`half-hour-${hour}-day-${j}`}
+                  className={cn(
+                    "border-b border-dashed border-slate-800/30",
+                    "border-r border-slate-800"
+                  )}
+                  style={{ 
+                    gridRow: `${(i * INTERVALS_PER_HOUR) + 2 + (INTERVALS_PER_HOUR / 2)}`, // Half-way through each hour
+                    gridColumn: `${j + 2}`,
+                  }}
+                />
+              ))}
+            </React.Fragment>
+          )
+        })}
         
         {/* Class blocks */}
         {classes.map((classData, index) => {
