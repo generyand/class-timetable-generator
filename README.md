@@ -1,8 +1,12 @@
-# Oras
+<div align="center">
+  <img src="./public/assets/oras-logo.png" alt="Oras Logo" width="100" height="100" />
+  
+  # Oras
+  
+  A modern, responsive application for creating beautiful class schedule timetables with AI-powered image recognition capabilities.
+</div>
 
-A modern, responsive application for creating beautiful class schedule timetables with AI-powered image recognition capabilities.
-
-![Timetable Screenshot](/public/screenshots/timetable-screenshot.png)
+![Timetable Screenshot](./public/screenshots/timetable-screenshot.png)
 
 ## Overview
 
