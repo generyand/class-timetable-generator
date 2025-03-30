@@ -1,23 +1,31 @@
-<div align="center">
-  <img src="./public/assets/oras-logo.png" alt="Oras Logo" width="100" height="100" />
-  
-  # Oras
-  
-  A modern, responsive application for creating beautiful class schedule timetables with AI-powered image recognition capabilities.
-</div>
+# Oras - Intelligent Timetable Creator
 
-![Timetable Screenshot](./public/screenshots/timetable-screenshot.png)
+<div align="center">
+  <img src="./public/assets/oras-logo.png" alt="Oras Logo" width="200"/>
+  <h3>Create beautiful timetables with AI-powered intelligence</h3>
+  
+  ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+  ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+  ![Platform](https://img.shields.io/badge/platform-Web-lightgrey)
+</div>
 
 ## Overview
 
-Oras is a Next.js application designed to help students and educators create, view, and manage class schedules with an intuitive, visually appealing interface. The application renders complex schedules in an elegant grid layout, optimized for both desktop and mobile viewing.
+Oras is a modern web application designed to help students and educators visualize their class schedules with an intuitive, visually appealing interface. The application transforms existing schedules into elegant, color-coded timetable layouts that are easy to read and understand at a glance. With its AI-powered image recognition capability, Oras can extract schedule information from uploaded images of existing timetables, simplifying the process of digitizing printed schedules. The application is fully responsive and optimized for both desktop and mobile viewing.
+
+## Screenshots
+
+<div align="center">
+  <img src="./public/screenshots/timetable-screenshot.png" alt="Oras Timetable Screenshot" width="800"/>
+  <p><i>The Oras application interface showcasing the interactive timetable view with color-coded class blocks</i></p>
+</div>
 
 ## Features
 
 - **Beautiful Timetable Visualization**: Display your schedule in a visually stunning, color-coded grid that makes it easy to view at a glance
 - **Responsive Design**: Optimized for all devices from desktop to mobile
-- **AI-Powered Schedule Generation**: Upload an image of your schedule and let our AI generate a complete timetable automatically
-- **Multiple Schedule Management**: Create and switch between different schedule configurations
+- **AI-Powered Image Recognition**: Upload an image of your existing schedule and let our AI extract the information automatically
+- **Multiple Timetable Views**: Create and switch between different timetable configurations
 - **Class Details**: View comprehensive information about each class by clicking on its block
 
 ## Technology Stack
