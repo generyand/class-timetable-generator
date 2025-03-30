@@ -44,6 +44,17 @@ const timeLabels = Array.from({ length: HOURS_TO_DISPLAY + 1 }, (_, i) => {
   }
 })
 
+// Generate half-hour time labels (8:30 AM, 9:30 AM, etc.)
+const halfHourLabels = Array.from({ length: HOURS_TO_DISPLAY }, (_, i) => {
+  const hour = START_HOUR + i
+  const formattedHour = hour < 12 ? hour : hour === 12 ? 12 : hour - 12
+  const amPm = hour < 12 ? 'AM' : 'PM'
+  return {
+    hour,
+    label: `${formattedHour}:30 ${amPm}`
+  }
+})
+
 // Color mapping with darker shades to match the image
 const colorMap: { [key: string]: string } = {
   blue: "bg-blue-800 border-blue-500 text-white",
@@ -140,7 +151,6 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
         className="grid bg-[#051220] relative border border-slate-800 rounded-md overflow-hidden"
         style={{
           gridTemplateColumns: "5rem repeat(6, 1fr)",
-          gridAutoRows: "60px",
           gridTemplateRows: `40px repeat(${HOURS_TO_DISPLAY}, 60px)`,
           minHeight: "800px",
         }}
@@ -182,18 +192,44 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
           </div>
         ))}
         
-        {/* Hour grid lines */}
+        {/* Half-hour time labels */}
+        {halfHourLabels.map((timeInfo, i) => (
+          <div 
+            key={`half-time-${timeInfo.hour}`}
+            className="text-xs text-slate-500/60 pr-3 flex items-center justify-end"
+            style={{ 
+              position: 'absolute',
+              right: 0,
+              top: `calc(${(i + 2) * 60}px + 30px)`, // Position halfway between hour marks
+              height: '20px',
+              width: '5rem',
+              zIndex: 5
+            }}
+          >
+            {timeInfo.label}
+          </div>
+        ))}
+        
+        {/* Hour grid cells with half-hour dashed lines */}
         {timeLabels.map((timeInfo, i) => (
           <React.Fragment key={`grid-line-${timeInfo.hour}`}>
             {days.map((day, j) => (
               <div 
                 key={`grid-${timeInfo.hour}-${day}`}
-                className="border-b border-r border-slate-700/50"
+                className="border-b border-r border-slate-700/50 relative"
                 style={{ 
                   gridRow: i + 2,
                   gridColumn: j + 2,
                 }}
-              />
+              >
+                {/* Half-hour dashed line (except for the last hour cell) */}
+                {i < timeLabels.length - 1 && (
+                  <div 
+                    className="absolute w-full border-b border-dashed border-slate-600/40" 
+                    style={{ top: 'calc(50% - 0.5px)', left: 0 }}
+                  />
+                )}
+              </div>
             ))}
           </React.Fragment>
         ))}
