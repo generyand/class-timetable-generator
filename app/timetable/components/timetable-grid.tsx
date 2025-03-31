@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 
 interface Class {
@@ -29,9 +29,14 @@ const END_HOUR = 22  // 10PM
 const HOURS_TO_DISPLAY = END_HOUR - START_HOUR
 const VISIBLE_START_HOUR = 8 // The first hour to show a label for
 
-// Day data
+// Day data with abbreviated versions for mobile
 const days = [
-  "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+  { full: "Monday", abbr: "MON" }, 
+  { full: "Tuesday", abbr: "TUE" }, 
+  { full: "Wednesday", abbr: "WED" }, 
+  { full: "Thursday", abbr: "THU" }, 
+  { full: "Friday", abbr: "FRI" }, 
+  { full: "Saturday", abbr: "SAT" }
 ]
 
 // Generate time labels (8AM to 10PM)
@@ -42,6 +47,8 @@ const timeLabels = Array.from({ length: HOURS_TO_DISPLAY + 1 }, (_, i) => {
   return {
     hour,
     label: `${formattedHour}:00 ${amPm}`,
+    shortLabel: `${formattedHour}${amPm}`, // Compact version for mobile
+    minimalLabel: `${formattedHour}${amPm.charAt(0)}`, // Ultra compact for very small screens
     visible: hour >= VISIBLE_START_HOUR // Only show labels for 8AM and later
   }
 })
@@ -59,6 +66,27 @@ const colorMap: { [key: string]: string } = {
 }
 
 export default function TimetableGrid({ classes, onClassSelect }: TimetableGridProps) {
+  // Screen size detection
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Detect viewport size on client-side
+  useEffect(() => {
+    const checkViewport = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsSmallScreen(window.innerWidth < 480);
+    };
+    
+    // Initial check
+    checkViewport();
+    
+    // Add event listener for resize
+    window.addEventListener('resize', checkViewport);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkViewport);
+  }, []);
+
   // Helper to convert time to grid position
   const timeToRow = (time: string): { start: number, end: number } => {
     try {
@@ -133,17 +161,24 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
     return [dayMap[day]].filter(i => i !== undefined)
   }
 
+  // Responsive layout values based on screen size
+  const cellHeight = isSmallScreen ? 45 : isMobile ? 50 : 60;
+  const timeColumnWidth = isSmallScreen ? "2.5rem" : isMobile ? "3.5rem" : "5rem";
+  const headerHeight = isSmallScreen ? 30 : isMobile ? 35 : 40;
+  const fontSize = isSmallScreen ? "text-[10px]" : isMobile ? "text-xs" : "text-sm";
+  const dayColumnWidth = isSmallScreen ? "minmax(40px, 1fr)" : "1fr";
+
   return (
-    <div className="w-full overflow-auto my-4">
+    <div className="w-full overflow-x-auto overflow-y-hidden my-2">
       <h2 className="text-xl font-semibold mb-4 text-center">Schedule #</h2>
       
       {/* Main grid container */}
       <div 
-        className="grid bg-[#051220] relative border border-slate-800 rounded-md overflow-hidden pb-6"
+        className="grid bg-[#051220] relative border border-slate-800 rounded-md overflow-hidden"
         style={{
-          gridTemplateColumns: "5rem repeat(6, 1fr)",
-          gridTemplateRows: `40px repeat(${HOURS_TO_DISPLAY}, 60px)`,
-          minHeight: "800px",
+          gridTemplateColumns: `${timeColumnWidth} repeat(6, ${dayColumnWidth})`,
+          gridTemplateRows: `${headerHeight}px repeat(${HOURS_TO_DISPLAY}, ${cellHeight}px)`,
+          minHeight: isSmallScreen ? "500px" : isMobile ? "600px" : "800px",
         }}
       >
         {/* Empty corner cell */}
@@ -152,11 +187,11 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
         {/* Day headers */}
         {days.map((day, index) => (
           <div 
-            key={day}
-            className="py-2 text-sm font-medium flex items-center justify-center border-b border-r border-slate-700"
+            key={day.full}
+            className={cn("py-1 font-medium flex items-center justify-center border-b border-r border-slate-700", fontSize)}
             style={{ gridRow: "1", gridColumn: `${index + 2}` }}
           >
-            {day}
+            {isSmallScreen ? day.abbr.substring(0, 3) : isMobile ? day.abbr : day.full}
           </div>
         ))}
 
@@ -173,17 +208,18 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
             timeInfo.visible && (
               <div 
                 key={`time-${timeInfo.hour}`}
-                className="text-xs text-slate-400 pr-3 absolute flex items-center justify-end"
+                className={cn("text-slate-400 pr-1 absolute flex items-center justify-end", 
+                  isSmallScreen ? "text-[9px]" : "text-xs")}
                 style={{ 
                   right: 0,
-                  top: `${i * 60}px`,
+                  top: `${i * cellHeight}px`,
                   transform: 'translateY(-50%)',
                   height: '20px',
                   width: '100%',
                   zIndex: 5
                 }}
               >
-                {timeInfo.label}
+                {isSmallScreen ? timeInfo.minimalLabel : isMobile ? timeInfo.shortLabel : timeInfo.label}
               </div>
             )
           ))}
@@ -194,7 +230,7 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
           <React.Fragment key={`grid-line-${timeInfo.hour}`}>
             {days.map((day, j) => (
               <div 
-                key={`grid-${timeInfo.hour}-${day}`}
+                key={`grid-${timeInfo.hour}-${day.full}`}
                 className="border-b border-r border-slate-700/50 relative"
                 style={{ 
                   gridRow: i + 2,
@@ -218,6 +254,7 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
           const dayColumns = dayToColumn(classData.day)
           const { start: rowStart, end: rowEnd } = timeToRow(classData.time)
           const colorClass = colorMap[classData.color] || colorMap.blue
+          const hasEnoughSpace = rowEnd - rowStart > 0.75;
           
           // Skip if we can't position this class
           if (dayColumns.length === 0) return null
@@ -229,7 +266,8 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
               <div
                 key={`class-${index}-${dayIndex}`}
                 className={cn(
-                  "border cursor-pointer flex flex-col h-full p-2 justify-between",
+                  "border cursor-pointer flex flex-col h-full justify-between overflow-hidden",
+                  hasEnoughSpace ? (isSmallScreen ? "p-0.5" : "p-1") : "p-0.5",
                   colorClass
                 )}
                 style={{
@@ -240,14 +278,48 @@ export default function TimetableGrid({ classes, onClassSelect }: TimetableGridP
                 }}
                 onClick={() => onClassSelect(classData)}
               >
-                <div className="text-xs font-bold">{classData.code}</div>
-                <div className="text-xs">{classData.room}</div>
-                <div className="text-xs mt-auto">{classData.instructor}</div>
+                <div className={cn(
+                  "font-bold line-clamp-1 leading-tight",
+                  isSmallScreen ? "text-[9px]" : "text-xs"
+                )}>
+                  {classData.code}
+                </div>
+                
+                {hasEnoughSpace && !isSmallScreen && (
+                  <>
+                    <div className={cn("line-clamp-1 leading-tight", isSmallScreen ? "text-[8px]" : "text-xs")}>
+                      {classData.room}
+                    </div>
+                    <div className={cn("mt-auto line-clamp-1 leading-tight", isSmallScreen ? "text-[8px]" : "text-xs")}>
+                      {classData.instructor}
+                    </div>
+                  </>
+                )}
+                
+                {hasEnoughSpace && isSmallScreen && (
+                  <div className="text-[8px] line-clamp-1 mt-auto leading-tight">
+                    {classData.instructor}
+                  </div>
+                )}
               </div>
             )
           }).filter(Boolean)
         })}
       </div>
+      
+      {/* Floating action button for mobile - optional */}
+      {isMobile && (
+        <div className="fixed bottom-6 right-6 z-20">
+          <button 
+            className="w-12 h-12 rounded-full bg-cyan-500 text-white flex items-center justify-center shadow-lg hover:bg-cyan-600 transition-colors"
+            aria-label="Add class"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   )
 } 
